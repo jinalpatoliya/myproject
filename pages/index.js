@@ -1,9 +1,11 @@
 import Header from "../components/Header/Header";
+import Layout from "../components/Layout/Layout";
+
 
 const Index = () => {
   return (
+    <Layout>
     <div className="test">
-      <Header />
       <style jsx>
         {`
           div {
@@ -12,6 +14,7 @@ const Index = () => {
         `}
       </style>
     </div>
+    </Layout>
   );
 };
 
