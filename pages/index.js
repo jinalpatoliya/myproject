@@ -9,10 +9,11 @@ const Index = () => {
       <style jsx>
         {`
           div {
-            background-color: red;
+              text-align:center;              
           }
         `}
       </style>
+      <h1>Welcome To My App </h1>
     </div>
     </Layout>
   );

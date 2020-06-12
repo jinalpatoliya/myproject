@@ -15,7 +15,6 @@ const dev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3000;
 const app = next({ dev });
 const handle = app.getRequestHandler();
-import cookieParser from 'cookie-parser'
 
 app.prepare().then(() => { 
   const server = express();
@@ -32,14 +31,7 @@ app.prepare().then(() => {
   server.get("*", (req, res) => {
     return handle(req, res);
   });
-  app.use(cookieParser())
-  app.get('/', function (req, res) {
-    // Cookies that have not been signed
-    console.log('Cookies: ', req.cookies)
-   
-    // Cookies that have been signed
-    console.log('Signed Cookies: ', req.signedCookies)
-  })
+  
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`Server is running http://localhost:${PORT}`);

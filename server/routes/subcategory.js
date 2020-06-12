@@ -15,11 +15,11 @@ router.post("/", (req, res) => {
   const body = req.body;
   console.log("My Sub Category Details")
   const subcategory = {    
-    subcategory_name: body.subcategory_name,
+    subcategoryName: body.subcategoryName,
     category_id:body.category_id    
   };
   SubcategoryModel.create(subcategory).then((data) => {
-    res.status(200).json(data);
+    res.status(200).json({"Message":"Sub Category Successfully Added."});
   });
 });
 

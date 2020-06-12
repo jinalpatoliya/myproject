@@ -13,12 +13,13 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   const body = req.body;
-  console.log("My Details")
-  const category = {    
-    categoryName: body.categoryName    
-  };
-  CategoryModel.create(category).then((data) => {
-    res.status(200).json(data);
+  console.log("My Details",req.body)
+  const categoryName = {    
+    categoryName: body.categoryName
+  };  
+  CategoryModel.create(categoryName).then((data) => {
+    // res.status(200).json(data);
+    res.status(200).json({"Message":"Category Successfully Added."});
   });
 });
 

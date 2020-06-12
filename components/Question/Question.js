@@ -25,19 +25,7 @@ class Question extends Component {
       ErrorMsg: '',
       SuccessMsg: ''
     }
-  }
-
-  componentDidMount = async () => {
-    const categories = await getCategories()    
-    this.setState({ categoryidfi: categories || [] })
-
-    const subcategories = await getsubcategories()
-    this.setState({subcategoryidfi:subcategories})
-  }
-
-  
-
-  
+  }  
  
   render() {
     return (

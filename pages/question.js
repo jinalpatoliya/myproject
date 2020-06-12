@@ -10,11 +10,29 @@ import QuestionField from '../components/FeildComponents/Question';
 import Options from '../components/FeildComponents/Option';
 import Answer from '../components/FeildComponents/Answer';
 import { getInsertQuestion } from '../actions/questions';
+import jsCookie from 'js-cookie'
 
-
-class QuestionPage extends Component {
-    constructor() {
-        super();
+class QuestionPage extends Component {    
+    static async getInitialProps(){
+        const categories = await getCategories()    
+        const subcategories = await getsubcategories()        
+        // const res=jsCookie.get('screenname')
+        // if (!res) {
+        //   res.writeHead(301, {
+        //     Location: '/login'
+        //   });
+        //   res.end();
+        // }  
+        return{
+          categoryidfi: categories || [] ,
+          subcategoryidfi:subcategories
+        }
+        
+      }
+    
+    constructor(props) {
+        super(props);
+        // console.log("Props value",props)
         this.state = {
             question: '',
             optionA: '',
@@ -23,7 +41,7 @@ class QuestionPage extends Component {
             optionD: '',
             answer: '',
             categoryidfi: [],
-            subcategoryidfi: [],
+            subcategoryidfi:this.props.subcategoryidfi,
             subfi: [],
             category_id: '',
             subcategory_id: '',
@@ -32,13 +50,13 @@ class QuestionPage extends Component {
         }
     }
 
-    componentDidMount = async () => {
-        const categories = await getCategories()
-        this.setState({ categoryidfi: categories || [] })
+    // componentDidMount = async () => {
+    //     const categories = await getCategories()
+    //     this.setState({ categoryidfi: categories || [] })
 
-        const subcategories = await getsubcategories()
-        this.setState({ subcategoryidfi: subcategories })
-    }
+    //     const subcategories = await getsubcategories()
+    //     this.setState({ subcategoryidfi: subcategories })
+    // }
 
     handleCategory = (e) => {
         const category = e.target.value;
@@ -131,30 +149,35 @@ class QuestionPage extends Component {
 
 
     render() {
-        // const user=window.localStorage.getItem("login");
-        // console.log("User Q",JSON.parse(user));
-        let token1 = window.localStorage.getItem("login");;
-        // console.log("Token Get", JSON.parse(token1))
-        // console.log(typeof token1)
-        token1 = JSON.parse(token1);
-        // console.log(typeof token1)
-        const token = token1.token;
-        const k = token.split(" ");
-        console.log("k", k)
-        //  console.log("Token :", token)
-        // global.axios.defaults.headers.common.Authorization = token ? `Bearer ${token}` : null;
-        var decoded = jwt_decode(k[1]);
-        console.log(decoded);
+        // let token1 = window.localStorage.getItem("login");
+        // token1 = JSON.parse(token1);       
+        // const token = token1.token;
+        // const k = token.split(" ");
+        // console.log("k", k)
+        // var decoded = jwt_decode(k[1]);
+        // console.log(decoded);
+        let myname=jsCookie.get("screenname");        
+        if(myname){
+            myname=JSON.parse(myname);
+            const token =myname.token;
+            const k = token.split(" ");
+            console.log("k", k)
+            var decoded = jwt_decode(k[1]);
+            console.log("Decoded Token",decoded);
+        }
+        // else{
+        //     // Router.push('/login')
+        // }
         return (
             <Layout>
                 <div className="col-md-10 mx-auto">
-                    <h4 className="float-right">welcome {decoded.name}</h4>
+                    {/* <h4 className="float-right">welcome {decoded.name ? decoded.name : null}</h4>                     */}
                     <h1 className="text-center">Question Page</h1>
                     {
 
                     }
                     <form>
-                        <Category label="Category" name="category_id" handlename={this.handleCategory} data={this.state.categoryidfi} />
+                        <Category label="Category" name="category_id" handlename={this.handleCategory} data={this.props.categoryidfi} />
                         <Subcategory label="Sub Category" name="subcategory_id" handlename={this.handleSubCategory} data={this.state.subfi} />
                         <QuestionField label="Question" content={this.state.question} handlechange={this.handleChangeQuestion} />
                         <Options label="Option A" content={this.state.optionA} handlechange={this.handleChangeOptionA} />
