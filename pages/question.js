@@ -10,19 +10,13 @@ import QuestionField from '../components/FeildComponents/Question';
 import Options from '../components/FeildComponents/Option';
 import Answer from '../components/FeildComponents/Answer';
 import { getInsertQuestion } from '../actions/questions';
+
 import jsCookie from 'js-cookie'
 
 class QuestionPage extends Component {    
-    static async getInitialProps(){
+    static async getInitialProps(req,res){
         const categories = await getCategories()    
-        const subcategories = await getsubcategories()        
-        // const res=jsCookie.get('screenname')
-        // if (!res) {
-        //   res.writeHead(301, {
-        //     Location: '/login'
-        //   });
-        //   res.end();
-        // }  
+        const subcategories = await getsubcategories()       
         return{
           categoryidfi: categories || [] ,
           subcategoryidfi:subcategories
@@ -49,14 +43,6 @@ class QuestionPage extends Component {
             SuccessMsg: ''
         }
     }
-
-    // componentDidMount = async () => {
-    //     const categories = await getCategories()
-    //     this.setState({ categoryidfi: categories || [] })
-
-    //     const subcategories = await getsubcategories()
-    //     this.setState({ subcategoryidfi: subcategories })
-    // }
 
     handleCategory = (e) => {
         const category = e.target.value;
@@ -130,7 +116,8 @@ class QuestionPage extends Component {
                 optionC,
                 optionD,
                 answer,
-                subcategory_id
+                subcategory_id,
+                name: props.initialName || ''
             }
             console.log("Question Details", questionInsert)
             const data = await getInsertQuestion(questionInsert);
@@ -156,22 +143,21 @@ class QuestionPage extends Component {
         // console.log("k", k)
         // var decoded = jwt_decode(k[1]);
         // console.log(decoded);
-        let myname=jsCookie.get("screenname");        
+        let myname=jsCookie.get("screenname");  
+        let decoded={}      
         if(myname){
             myname=JSON.parse(myname);
             const token =myname.token;
             const k = token.split(" ");
-            console.log("k", k)
-            var decoded = jwt_decode(k[1]);
-            console.log("Decoded Token",decoded);
+            // console.log("k", k)
+            decoded = jwt_decode(k[1]);
+            // console.log("Decoded Token",decoded);
         }
-        // else{
-        //     // Router.push('/login')
-        // }
+        
         return (
             <Layout>
                 <div className="col-md-10 mx-auto">
-                    {/* <h4 className="float-right">welcome {decoded.name ? decoded.name : null}</h4>                     */}
+                    <h4 className="float-right">welcome {decoded.name}</h4>                    
                     <h1 className="text-center">Question Page</h1>
                     {
 

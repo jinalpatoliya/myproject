@@ -63,7 +63,7 @@ export default class Subcategory extends Component {
         return (
             <Layout>
                 <div className="col-md-8 mx-auto">
-                    <h1 className="text-center">Add Category</h1>
+                    <h1 className="text-center">Add Sub Category</h1>
                     <form>
                     
                     <Category label="Category" name="category_id"  data={this.props.categoryidfi} handlename={this.handleCategory} />

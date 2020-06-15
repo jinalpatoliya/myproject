@@ -2,6 +2,13 @@ import App from "next/app";
 import Head from "next/head";
 
 class MyApp extends App {
+
+  // static async getInitialProps(ctx) {
+  //   const appProps = await App.getInitialProps(ctx);
+  //   console.log(appProps)
+  //   return { ...appProps }
+  // }
+
   render() {
     const { Component, pageProps } = this.props;
     return (

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Axios from 'axios'
 import validator from 'validator';
 import Router from 'next/router'
 import Layout from '../components/Layout/Layout';
-import jsCookie from 'js-cookie'
-
+import { login } from '../actions/login';
+import jsCookie from 'js-cookie';
 class Login extends Component {
     constructor() {
         super();
@@ -19,7 +18,7 @@ class Login extends Component {
             [e.target.name]: e.target.value
         })
     }
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         const { email, password } = this.state;
         if (validator.isEmail(email) &&
@@ -29,19 +28,25 @@ class Login extends Component {
                 email,
                 password
             }
-            Axios.post('http://localhost:3000/api/v1/user/login', user)
-                .then(response => {
-                    console.log(response.data)
-                    jsCookie.set("screenname",response.data)
+            try {
+                const data = await login(user);
+                if (data) {                    
+                    jsCookie.set("screenname", data)
                     Router.push('/question')
-                    // window.localStorage.setItem('login',JSON.stringify(response.data));                    
+                }
+            }
+            catch (error) {
+                this.setState({
+                    Error: error.data.message
                 })
-                .catch(error => {
-                    console.log(error);
-                    this.setState({
-                        Error: "Please Enter Valid Email and Password."
-                    })
-                })
+                // console.log(typeof error)
+                // console.log("Login Eror", error.data.message)                
+            }
+            //    else{
+            //        this.setState({
+            //            Error:data.message
+            //        })
+            //    }
         }
         else {
             this.setState({
@@ -57,11 +62,11 @@ class Login extends Component {
                     <form>
                         <div className="form-group">
                             <label>Email address</label>
-                            <input type="email" className="form-control" name="email" placeholder="Enter email" onChange={this.handleChange} value={this.state.email}/>
+                            <input type="email" className="form-control" name="email" placeholder="Enter email" onChange={this.handleChange} value={this.state.email} />
                         </div>
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.handleChange} value={this.state.password}/>
+                            <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.handleChange} value={this.state.password} />
                         </div>
                         <button type="submit" className="btn btn-dark" onClick={this.handleSubmit}>Submit</button>
                         {

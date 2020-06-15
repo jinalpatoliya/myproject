@@ -3,7 +3,7 @@ import { UserModel } from "../db/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passportConfig from "../config/passport.config.json";
-
+import cookie from 'cookie'
 const router = express.Router();
 
 router.post("/register", (req, res) => {
@@ -73,8 +73,16 @@ router.post("/login", (req, res) => {
           passportConfig.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
+            // res.setHeader('set-cookie',cookie.serialize('auth',token,{
+            //   httpOnly:true,
+            //   secure:true,
+            //   sameSite:'strict',
+            //   maxAge:3600,
+            //   path:'/'
+            // }))
             return res.status(200).json({
               token: "Bearer " + token,
+              Message:"Welcome Back To The App!"
             });
           }
         );
