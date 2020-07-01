@@ -1,0 +1,15 @@
+.nav-item a {
+    display: inline-block;
+    margin: 22px;
+    color: #fff;
+    font-weight: 600;
+}
+.nav-item a:hover {    
+    color: #000;
+}
+.card-register {
+    background-color:#6dd3d6 !important;
+}
+.navbar {
+    background: #6dd3d6 !important; 
+}
