@@ -3,10 +3,13 @@ import Link from "next/link";
 const DisplayQuestion = ({ question }) => {
   const [answer, setAnswer] = useState("");
   const [toggleAnswer, setToggleAnswer] = useState(false);
+  const [vanswer,setVanswer]=useState("View answer")
 
   const onAnswerClick = (question) => {
     setAnswer(question.answer);
     setToggleAnswer(!toggleAnswer);
+    (toggleAnswer ? setVanswer("View Answer") : setVanswer("Hide Answer"))
+    
   };
 
   return (
@@ -50,7 +53,7 @@ const DisplayQuestion = ({ question }) => {
             className="mycolor text-capitalize"
             onClick={() => onAnswerClick(question)}
           >
-            view answer
+            {vanswer}
           </b>
         </div>
         

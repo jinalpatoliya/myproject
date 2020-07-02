@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { QuestionModel } from "../db/index";
+import { QuestionModel, CategoryModel, SubcategoryModel } from "../db/index";
 import { insertQuestionValidation } from "../validations/question";
 import { authenticate } from "../security/passport";
+import isEmpty from "../validations/is-empty";
+import Subcategory from "../models/subcategory";
 const router = Router();
 
 router.post("/", authenticate(), (req, res) => {
@@ -118,6 +120,49 @@ router.post("/questionperpage", (req, res) => {
   // .then((data)=>{
   //     res.status(200).json(data);
   //   })
+});
+
+router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
+  console.log("Enter Question Per Page", req.query);
+  const pageNum = req.query.pageNum;
+  const { catslug, subslug } = req.params;
+
+  CategoryModel.findOne({
+    where: {
+      categorySlug: catslug,
+    },
+  })
+    .then((category) => {
+      if (isEmpty(category)) {
+        res.status(404).json({ meg: "Category not found" });
+        return;
+      }
+      SubcategoryModel.findOne({
+        where: {
+          subcategorySlug: subslug,
+          category_id: category.id,
+        },
+      })
+        .then((subCategory) => {
+          if (isEmpty(subCategory)) {
+            res.status(404).json({ meg: "Subcategory not found" });
+            return;
+          }
+          QuestionModel.findAndCountAll({
+            where: {
+              subcategory_id: subCategory.id,
+            },
+            limit: 1,
+            offset: pageNum * 1,
+          })
+            .then((data) => {
+              res.status(200).json(data);
+            })
+            .catch((err) => res.status(500).json({ error: err }));
+        })
+        .catch((err) => res.status(500).json({ error: err }));
+    })
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 export default router;

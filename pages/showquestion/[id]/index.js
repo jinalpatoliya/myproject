@@ -15,8 +15,8 @@ const ShowQuestion = ({ questions }) => {
       <container className="col-md-8">
         {/* <h1>Question List : {id}</h1> */}
         <ol>
-          {questions.map((question) => {
-            return <DisplayQuestion question={question} />;
+          {questions.map((question, index) => {
+            return <DisplayQuestion question={question} key={index} />;
           })}
         </ol>
       </container>

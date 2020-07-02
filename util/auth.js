@@ -16,7 +16,7 @@ export const getTokeAndCheckIsExpired = (req) => {
   
 };
 export const removeToken = (token) => {
-    cookies.remove('abc', { path: '/' });
+    cookies.remove('token', { path: '/' });
 }
 const checkTokenExpiration = (token) => {
    let dateNow = new Date();

@@ -41,7 +41,7 @@ export const getEditQuestion = (questionEdit) => {
 export const getQuestionBySubId = (subcategory_id) => {
   console.log("Question Coming From Id", subcategory_id);
   return Axios.post(
-    `http://localhost:3000/api/v1/question/subcate/${subcategory_id}`,    
+    `http://localhost:3000/api/v1/question/subcate/${subcategory_id}`
   )
     .then((response) => response.data)
     .catch((error) => console.log(error));
@@ -58,8 +58,10 @@ export const getQuestion = () => {
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
-export const getPerPageQuestion = (id) => {
-  return Axios.post("http://localhost:3000/api/v1/question/questionperpage",id)
+export const getPerPageQuestion = (category, subcategory, page) => {
+  return Axios.get(
+    `http://localhost:3000/api/v1/question/slug/${category}/subslug/${subcategory}?pageNum=${page}`
+  )
     .then((response) => response.data)
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error.response.data));
 };

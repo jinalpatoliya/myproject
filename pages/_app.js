@@ -5,10 +5,6 @@ import { Router } from "next/router";
 
 class MyApp extends App {
   static async getInitialProps(ctx) {
-    // console.log("-----------------------");
-    // console.log("*****      _APP_       ******");
-    // console.log(getTokeAndCheckIsExpired(ctx.req));
-    // console.log("------------------------------");
     const appProps = await App.getInitialProps(ctx);
     const isExpired = getTokeAndCheckIsExpired(ctx.req);
     if (isExpired) {
