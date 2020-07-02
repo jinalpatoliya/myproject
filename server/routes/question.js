@@ -165,4 +165,8 @@ router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+router.get("/questioncheck/:questioncheck",(req,res)=>{
+  console.log("Question Coming For Checking",req.query.questioncheck)  
+})
+
 export default router;

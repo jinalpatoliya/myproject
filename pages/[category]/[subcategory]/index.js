@@ -1,6 +1,3 @@
-import { useRouter } from "next/router";
-import { Component, Fragment } from "react";
-import Link from "next/link";
 import Layout from "../../../components/Layout/Layout";
 import { getPerPageQuestion } from "../../../actions/questions";
 import DisplayQuestion from "../../../components/DisplayQuestion/DisplayQuestion";

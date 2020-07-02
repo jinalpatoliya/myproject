@@ -8,7 +8,7 @@ import Subcategory from '../components/FeildComponents/Subcategory';
 import QuestionField from '../components/FeildComponents/Question';
 import Options from '../components/FeildComponents/Option';
 import Answer from '../components/FeildComponents/Answer';
-import { getInsertQuestion } from '../actions/questions';
+import { getInsertQuestion, checkDuplicateQuestionStatus } from '../actions/questions';
 import { Cookies } from 'react-cookie';
 import { Auth } from '../components/auth/auth';
 import ErrorSuccess from '../components/ErrorSuccess/ErrorSuccess';
@@ -63,6 +63,10 @@ class QuestionPage extends Component {
         this.setState({
             question
         })
+    }
+    checkDuplicateQuestion = async() => {
+        const {question} = this.state;
+        const data = await checkDuplicateQuestionStatus(question);
     }
 
     handleChangeOptionA = (optionA) => {
@@ -159,6 +163,7 @@ class QuestionPage extends Component {
                         <Category label="Category" name="category_id" handlename={this.handleCategory} data={this.props.categoryidfi} value={this.state.category_id}/>
                         <Subcategory label="Sub Category" name="subcategory_id" handlename={this.handleSubCategory} data={this.state.subcategoryidfi} />
                         <QuestionField label="Question" content={this.state.question} handlechange={this.handleChangeQuestion} value={this.state.question}/>
+                        {/* <button className="btn btn-primary mb-2" onclick={this.checkDuplicateQuestion} >Duplicate</button> */}
                         <Options label="Option A" content={this.state.optionA} handlechange={this.handleChangeOptionA} />
                         <Options label="Option B" content={this.state.optionB} handlechange={this.handleChangeOptionB} />
                         <Options label="Option C" content={this.state.optionC} handlechange={this.handleChangeOptionC} />

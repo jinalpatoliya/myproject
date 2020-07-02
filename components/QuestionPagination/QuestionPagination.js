@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import Link from "next/link";
-import next from "next";
 
 export default class QuestionPagination extends Component {
   render() {

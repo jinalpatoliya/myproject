@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { Cookies } from "react-cookie";
+import { response } from "express";
 const cookies = new Cookies();
 let headers = null;
 let token1 = cookies.get("token");
@@ -65,3 +66,10 @@ export const getPerPageQuestion = (category, subcategory, page) => {
     .then((response) => response.data)
     .catch((error) => console.log(error.response.data));
 };
+export const checkDuplicateQuestionStatus = (question) => {
+  return Axios.get(    
+    `http://localhost:3000/api/v1/question/questioncheck/${question}`
+  )
+  .then((response)=>response.data)
+  .catch((error)=>console.log(error));
+}
