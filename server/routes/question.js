@@ -7,18 +7,8 @@ import Subcategory from "../models/subcategory";
 const router = Router();
 
 router.post("/", authenticate(), (req, res) => {
-  const body = req.body;
-  console.log("My User Details", req.user);
-  console.log("My Sub Category Details");
-  const { isValid, errors } = insertQuestionValidation(body);
-  console.log(isValid, errors);
-  console.log("-------------------------");
-  console.log(isValid, errors);
-  console.log("-------------------------");
-
-  console.log("-------------------------");
-  console.log(req.user.id);
-  console.log("-------------------------");
+  const body = req.body;  
+  const { isValid, errors } = insertQuestionValidation(body);  
   if (!isValid) return res.status(404).json(errors);
 
   const question = {
@@ -94,8 +84,6 @@ router.post("/subcate/:subcatId", (req, res) => {
 });
 
 router.post("/questionperpage", (req, res) => {
-  console.log("Enter Question Per Page", req.body);
-  // console.log("My Query Getting Value",req.query)
   const id = req.body.subcategory_id;
   const pageNum = req.body.pageNum;
   QuestionModel.findAndCountAll({
@@ -104,23 +92,11 @@ router.post("/questionperpage", (req, res) => {
     },
     limit: 1,
     offset: pageNum * 1,
-    // order: [['id', 'ASC']],
-    // ...params,
   }).then((data) => {
     res.status(200).json(data);
-  });
-  // QuestionModel
-  //   .findAndCountAll({
-  //     // where: {...},
-  //     // order: [...],
-  //     limit: 1,
-  //     offset: 0,
-  // })
-  // .findAll()
-  // .then((data)=>{
-  //     res.status(200).json(data);
-  //   })
+  }); 
 });
+
 
 router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
   console.log("Enter Question Per Page", req.query);
@@ -165,8 +141,5 @@ router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/questioncheck/:questioncheck",(req,res)=>{
-  console.log("Question Coming For Checking",req.query.questioncheck)  
-})
 
 export default router;

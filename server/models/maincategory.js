@@ -1,24 +1,28 @@
 import Sequelize from "sequelize";
-// import SequelizeSlugify from 'sequelize-slugify';
 
-const Category = (sequelizeDB) => {
+const Maincategory = (sequelizeDB) => {
   const table = sequelizeDB.define(
-    "category",
+    "maincategory",
     {
-      categoryName: {
+      mainCategoryName: {
         type: Sequelize.STRING,
       }, 
-      categorySlug:{
+      mainCategorySlug:{
         type: Sequelize.STRING
         // unique:true
-      }         
+      },
+      mainCategoryTitle:{
+        type: Sequelize.STRING
+        // unique:true
+      }          
     },
     {
       freezeTableName: true,
       underscored: true,
     }
-  );  
+  );
+
   return table;
 };
 
-export default Category;
+export default Maincategory;

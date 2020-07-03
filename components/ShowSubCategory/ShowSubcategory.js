@@ -10,22 +10,12 @@ export default class ShowSubcategory extends Component {
         }
     }
     async componentDidMount() {
-        const subcategory = await getsubcategoriesById(this.props.categoryid);    
-        // console.log("My Sub Category Data Fetch",this.subcategory)
-        // return{
-        //   subcategories:subcategory || []
-        // }
+        const subcategory = await getsubcategoriesById(this.props.categoryid);  
         this.setState({
             subcategory:subcategory
         })
       }
-    render() {
-        console.log("Coming Value From Parent ",this.props.categoryid)
-        console.log("My Sub Category Data Fetch",this.state.subcategory)
-        // let data=this.state.subcategory.filter((category)=> category.category_id==this.props.categoryid)
-        // console.log("==================")
-        // console.log("gfdhjfgdshjgfhjsdgfhj",data)
-        // console.log("==================")
+    render() {      
         return (
             <Fragment>
                 <ul className="listclassInner">

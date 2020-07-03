@@ -10,8 +10,7 @@ export default class Subcategory extends Component {
     static async getInitialProps(){
         const categories = await getCategories()       
         return{
-             categoryidfi: categories || [] ,
-            //  subcategories:subcategories || []
+             categoryidfi: categories || []             
         }        
     }
     constructor(){
@@ -72,12 +71,13 @@ export default class Subcategory extends Component {
            !validator.isEmpty(subcategorySlug)){
             const data =await insertSubcategory(subcategoryName)
             console.log("Sub Category Response",data)
+            if(data){
             this.setState({
                 Success:data.Message,
                 Error:'' ,
                 subcategory:'',
                 subcategorySlug:''               
-            })
+            })}
         }
         else{
             this.setState({

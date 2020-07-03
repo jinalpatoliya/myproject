@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CategoryModel } from "../db/index";
-// import { authenticate } from "../security/passport";
+import { insertCategoryValidation } from "../validations/category";
 
 const router = Router();
 
@@ -12,7 +12,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const body = req.body;  
+  const body = req.body; 
+  const { isValid, errors } = insertCategoryValidation(body);  
+  if (!isValid) return res.status(404).json(errors);
+
+   
   console.log("My Details",req.body)
   const categoryName = {    
     categoryName: body.categoryName,

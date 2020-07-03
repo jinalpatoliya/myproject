@@ -12,20 +12,15 @@ import validator from "validator";
 export default class EditQuestionForm extends Component {
   componentDidMount = async () => {
     const categories = await getCategories();
-    const subcategories = await getsubcategoriesById(this.state.category_id);
-    // const myval= Auth({req,res});
+    const subcategories = await getsubcategoriesById(this.state.category_id);    
 
     this.setState({
       categoryidfi: categories || [],
-      subcategoryidfi: subcategories,
-      //   decoded:myval.decoded
+      subcategoryidfi: subcategories      
     });
   };
   constructor(props) {
-    super(props);
-    console.log("----------------------------");
-    console.log("Props value", props);
-    console.log("----------------------------");
+    super(props);   
     this.state = {
        id:props.question.id  ,
       question: props.question.question,

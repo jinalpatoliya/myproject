@@ -5,14 +5,12 @@ import Link from 'next/link';
 
 class QuestionList extends Component {
     static async getInitialProps (req){
-        const questions = await getQuestion();
-        console.log("Props Getting Questions : ",questions)
+        const questions = await getQuestion();        
         return{
             questions:questions
         }
     }
-    render() {
-        console.log("Render Question Access : ",this.props.questions)
+    render() {        
         return (
             <Layout>
                 <h1 className="mycolor mb-4 text-center">Question List</h1>

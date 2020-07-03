@@ -1,6 +1,7 @@
 import isEmpty from "./is-empty";
 import jwt_decode from "jwt-decode";
 import { Cookies } from 'react-cookie';
+import { Router } from 'next/router';
 
 const cookies = new Cookies();
 
@@ -50,3 +51,23 @@ const getToken = (req) => {
     return token;
   }
 };
+
+
+export const checkAuthentication=({req,res})=>{
+    
+    const token = getToken(req)
+    if(!token){        
+        if(res){
+            res.redirect('/login')
+        }
+        else{
+            Router.push("/login")
+        }
+    }  
+
+    const decode = decodeToken(token)
+               
+    return{
+        decoded:decode        
+    }  
+}

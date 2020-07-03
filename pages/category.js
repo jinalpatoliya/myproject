@@ -54,12 +54,14 @@ export default class Category extends Component {
         !validator.isEmpty(categorySlug)){
             const data =await insertCategory(category1)
             console.log("Category Response",data)
+            if(data){
             this.setState({
                 Success:data.Message,
                 Error:'',
                 category:'',
                 categorySlug:''
             })
+        }
         }
         else{
             this.setState({
@@ -83,17 +85,7 @@ export default class Category extends Component {
                             <input type="text" className="form-control" name="categorySlug" placeholder="Enter Category Slug" onChange={this.handleSlug} value={this.state.categorySlug}/>
                         </div>
                         <button type="submit" className="btn btn-dark" onClick={this.handleSubmit}>Submit</button>
-                        <ErrorSuccess Error={this.state.Error} Success={this.state.Success}/>
-                        {/* {console.log("My Categories Fetch From Props",this.props.categories)}
-                        <ul>
-                            {
-                                this.props.categories.map((category)=>{
-                                    return(
-                                    <li key={category.id}>{category.categoryName}</li>
-                                    )
-                                })
-                            }
-                        </ul> */}
+                        <ErrorSuccess Error={this.state.Error} Success={this.state.Success}/>                        
                     </form>
                 </div>
             </Layout>

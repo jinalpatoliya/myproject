@@ -35,20 +35,15 @@ ShowQuestion.getInitialProps = async ({ query }) => {
   const { subcategory, category } = query;
 
   try {
-    const question = await getPerPageQuestion(category, subcategory, page);
-    console.log("--------------------------------------------");
-    console.log("GetInitial Props Question Value From Id : ", question);
-    console.log("--------------------------------------------");
+    const question = await getPerPageQuestion(category, subcategory, page);   
     return {
       questions: question,
       category: category,
       subcategory: subcategory,
       page: page,
     };
-  } catch (err) {
-    console.log("--------------------------------------------");
-    console.log("GetInitial Props Question Value From Id Error : ", err);
-    console.log("--------------------------------------------");
+  } catch (err) {    
+    console.log("GetInitial Props Question Value From Id Error : ", err);    
   }
   return {};
 };

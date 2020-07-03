@@ -9,28 +9,22 @@ import QuestionField from '../components/FeildComponents/Question';
 import Options from '../components/FeildComponents/Option';
 import Answer from '../components/FeildComponents/Answer';
 import { getInsertQuestion, checkDuplicateQuestionStatus } from '../actions/questions';
-import { Cookies } from 'react-cookie';
-import { Auth } from '../components/auth/auth';
 import ErrorSuccess from '../components/ErrorSuccess/ErrorSuccess';
+import { checkAuthentication } from '../util/auth';
 
-// const cookies = new Cookies();
 class QuestionPage extends Component {    
     static async getInitialProps({req,res}){
-        const categories = await getCategories()    
-        // const subcategories = await getsubcategories() 
-        // const subcategories = await getsubcategoriesById(this.state.category_id);
-        const myval= Auth({req,res});
+        const categories = await getCategories() 
+        const myval= checkAuthentication({req,res});
         console.log("Myval Value",myval)             
         return{
-          categoryidfi: categories || [] ,
-        //   subcategoryidfi:subcategories,
+          categoryidfi: categories || [] ,      
           decoded:myval.decoded          
         }        
       }
     
     constructor(props) {
-        super(props);
-        // console.log("Props value",props)
+        super(props);        
         this.state = {
             question: '',
             optionA: '',
@@ -64,8 +58,10 @@ class QuestionPage extends Component {
             question
         })
     }
-    checkDuplicateQuestion = async() => {
+    checkDuplicateQuestion = async(e) => {
+        e.preventDefault()
         const {question} = this.state;
+        console.log("Question",question);
         const data = await checkDuplicateQuestionStatus(question);
     }
 
@@ -118,8 +114,7 @@ class QuestionPage extends Component {
             optionD,
             answer,
             category_id,
-            subcategory_id
-            // name: props.initialName || ''
+            subcategory_id           
         }
         console.log("Question Details", questionInsert)
         if (!validator.isEmpty(question) &&
@@ -163,15 +158,13 @@ class QuestionPage extends Component {
                         <Category label="Category" name="category_id" handlename={this.handleCategory} data={this.props.categoryidfi} value={this.state.category_id}/>
                         <Subcategory label="Sub Category" name="subcategory_id" handlename={this.handleSubCategory} data={this.state.subcategoryidfi} />
                         <QuestionField label="Question" content={this.state.question} handlechange={this.handleChangeQuestion} value={this.state.question}/>
-                        {/* <button className="btn btn-primary mb-2" onclick={this.checkDuplicateQuestion} >Duplicate</button> */}
+                        <button className="btn btn-primary mb-2" onclick={this.checkDuplicateQuestion} >Duplicate</button>
                         <Options label="Option A" content={this.state.optionA} handlechange={this.handleChangeOptionA} />
                         <Options label="Option B" content={this.state.optionB} handlechange={this.handleChangeOptionB} />
                         <Options label="Option C" content={this.state.optionC} handlechange={this.handleChangeOptionC} />
                         <Options label="Option D" content={this.state.optionD} handlechange={this.handleChangeOptionD} />
                         <Answer label="Option Answer" content="answer" handlechange={this.handleChangeAnswer} />
-                        <button type="submit" className="btn btn-dark" onClick={this.handleSubmit}>Submit</button>                        
-                        {/* {this.state.SuccessMsg && <div className="alert alert-success mt-3" role="alert"> {this.state.SuccessMsg} </div>}
-                        {this.state.ErrorMsg && <div className="alert alert-danger mt-3" role="alert"> {this.state.ErrorMsg} </div>} */}
+                        <input type="submit" className="btn btn-dark" onClick={this.handleSubmit} value="Submit"/>                                             
                         <ErrorSuccess Error={this.state.ErrorMsg} Success={this.state.SuccessMsg}/>
                     </form>
                 </div>
@@ -181,24 +174,4 @@ class QuestionPage extends Component {
 }
 
 export default QuestionPage
-
- // let token, header,decoded1,decoded='';
-        // token = cookies.get('token');
-        // if(req) {
-        //     console.log("Getinitial Props Call Server Side");
-        //     header = req.headers
-        //     console.log("----------------------------")
-        //     header=header["cookie"]            
-        //     decoded = jwt_decode(header);
-        //     console.log("Decoded Token",decoded);            
-        // }  
-        // if(token){
-        //     console.log("Getinitial Props Call Client Side");   
-        //     console.log("My Tokennn",token);
-        //     const k = token.token.split(" ");
-        //     console.log("k", k)
-        //     decoded1 = jwt_decode(k[1]);            
-        // }  
-        // else{
-        //     window.location.replace('/login') 
-        // }
+ 

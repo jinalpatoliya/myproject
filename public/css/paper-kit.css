@@ -34,9 +34,6 @@ b.mycolor {
   cursor: pointer;
   color: #6dd3d6;
 }
-body{
-  margin-top: 65px;
-}
 ul.listclassupper .listWrapper > li {
   background: #f2f2f2;
   color: #000;
@@ -6560,5 +6557,3 @@ td.rdtYear:hover {
   top: 1px;
   border-width: 0 .4rem .4rem .4rem;
   border-bottom-color: #fff; }
-
-/*# sourceMappingURL=paper-kit.css.map */

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { getCategories } from '../actions/category'
 import Layout from '../components/Layout/Layout';
 import ShowSubcategory from '../components/ShowSubCategory/ShowSubcategory';
