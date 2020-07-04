@@ -62,6 +62,11 @@ const Navbars = () => {
           </Link>
         </NavItem>
         <NavItem>
+          <Link href="/maincategorymapping">
+            <a>Main Category Mapping</a>
+          </Link>
+        </NavItem>
+        <NavItem>
           <Link href="/maincategory">
             <a>Main Category</a>
           </Link>

@@ -9,6 +9,8 @@ import SubcategoryRouter from "./routes/subcategory";
 import QuestionRouter from "./routes/question";
 import CommentRouter from "./routes/comment";
 import MaincategoryRouter from "./routes/maincategory"
+import MainCategoryMappingRouter from "./routes/maincategorymapping"
+
 // import bodyParser from 'body-parser'
 
 require('dotenv').config();
@@ -34,7 +36,7 @@ app.prepare().then(() => {
   server.use("/api/v1/question",QuestionRouter);    
   server.use("/api/v1/comment",CommentRouter);
   server.use("/api/v1/maincategory",MaincategoryRouter)
-  
+  server.use("/api/v1/maincategorymapping",MainCategoryMappingRouter)
   server.get("*", (req, res) => {
     return handle(req, res);
   });

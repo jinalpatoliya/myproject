@@ -7,6 +7,7 @@ import Subcategory from "../models/subcategory"
 import Question from "../models/question"
 import Comment from "../models/comment";
 import Maincategory from "../models/maincategory"
+import MainCategoryMapping from "../models/maincategorymapping"
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -31,6 +32,7 @@ export const SubcategoryModel = Subcategory(sequelize);
 export const CommentModel = Comment(sequelize);
 export const QuestionModel = Question(sequelize);
 export const MaincategoryModel = Maincategory(sequelize)
+export const MainCategoryMappingModel = MainCategoryMapping(sequelize)
 
 sequelize.sync().then(() => {
   console.log("---------------Tables Created--------------");

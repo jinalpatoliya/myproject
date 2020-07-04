@@ -21,29 +21,28 @@ router.post("/", (req, res) => {
     mainCategorySlug: body.mainCategorySlug,
     mainCategoryTitle: body.mainCategoryTitle,
   };
- console.log("Main Castegory Data",maincategory)
+  console.log("Main Castegory Data", maincategory);
   MaincategoryModel.findOne({
     where: {
       mainCategoryName: body.mainCategoryName,
-    }
-  }).then((maincategoryData) => { 
-      console.log("==================")
-      console.log("Main Category Then Coming",maincategoryData)     
-      console.log("==================")
+    },
+  })
+    .then((maincategoryData) => {
+      console.log("==================");
+      console.log("Main Category Then Coming", maincategoryData);
+      console.log("==================");
       if (!isEmpty(maincategoryData)) {
-        MaincategoryModel.create(maincategory)
-        .then((maincategorydata) => {
-          res.status(200).json({ Message: "Main Category Successfully Added." });
-        })
-        .catch((error) => res.status(500).json({ error: "Inner Error" }));        
-      }
-      else{
         return res.status(409).json({ Message: "Main Category already exist" });
       }
+      MaincategoryModel.create(maincategory)
+        .then((maincategorydata) => {
+          res
+            .status(200)
+            .json({ Message: "Main Category Successfully Added." });
+        })
+        .catch((error) => res.status(500).json({ error: "Inner Error" }));
     })
-    .catch((error) => res.status(500).json({ error: "Outer Error" }));
+    .catch((error) => res.status(500).json({ error }));
 });
-
-
 
 export default router;
