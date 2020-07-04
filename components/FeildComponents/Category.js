@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 class Category extends Component {
     render() {
-        const { label, name, handlename, data ,selectedValue} = this.props;
-        // console.log("Category getting Value : ")
+        const { label, name, handlename, data ,selectedValue} = this.props;        
         return (
             <div className="form-group"> 
                 <label>{label} :</label>

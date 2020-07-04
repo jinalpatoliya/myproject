@@ -15,8 +15,7 @@ import { checkAuthentication } from '../util/auth';
 class QuestionPage extends Component {    
     static async getInitialProps({req,res}){
         const categories = await getCategories() 
-        const myval= checkAuthentication({req,res});
-        console.log("Myval Value",myval)             
+        const myval= checkAuthentication({req,res});           
         return{
           categoryidfi: categories || [] ,      
           decoded:myval.decoded          
@@ -61,7 +60,6 @@ class QuestionPage extends Component {
     checkDuplicateQuestion = async(e) => {
         e.preventDefault()
         const {question} = this.state;
-        console.log("Question",question);
         const data = await checkDuplicateQuestionStatus(question);
     }
 
@@ -116,7 +114,6 @@ class QuestionPage extends Component {
             category_id,
             subcategory_id           
         }
-        console.log("Question Details", questionInsert)
         if (!validator.isEmpty(question) &&
             !validator.isEmpty(optionA) &&
             !validator.isEmpty(optionB) &&

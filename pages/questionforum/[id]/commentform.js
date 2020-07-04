@@ -5,7 +5,6 @@ import { insertComment } from '../../../actions/comment';
 export default class CommentForm extends Component {
     static getInitialProps = async ({query})=>{
         const id = query.id
-        console.log("Commimg Id",id)
         return{
             id
         }
@@ -38,7 +37,6 @@ export default class CommentForm extends Component {
             !validator.isEmpty(email) &&
             !validator.isEmpty(comment)){
                 const data=await insertComment(comments);
-                console.log("Data Comment Table",data)
                 this.setState({
                     SuccessMsg: "Comment Entered Successfully.",
                     ErrorMsg: '',

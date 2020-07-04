@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { getComment } from '../../actions/comment'
 
-const DisplayComment = (props) => {     
-        
+const DisplayComment = (props) => {        
         return (
-            <div>
-                {/* {console.log("Comments Comming For Display",props.id)} */}
+            <div>               
                 {
                     props.id.map((comment)=>{
                         return(
@@ -25,11 +23,4 @@ const DisplayComment = (props) => {
             </div>
         )
     }
-// DisplayComment.getInitialProps=(req)=>{
-//     console.log("Request Value",req)
-//     return{
-
-//     }
-
-// }
 export default DisplayComment;

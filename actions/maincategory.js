@@ -8,7 +8,9 @@ export const getMainCategories = () => {
 
 export const insertMainCategory = (maincategory) => {
     console.log("Action Category",maincategory);
-    return Axios.post('http://localhost:3000/api/v1/maincategory/',maincategory)
+    return Axios.post(' http://localhost:3000/api/v1/maincategory/',maincategory)
            .then(response => response.data) 
-           .catch(error=>console.log(error))
+           .catch((error) => {
+            throw error.response;
+          });  
 }

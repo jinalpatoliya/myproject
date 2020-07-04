@@ -29,8 +29,5 @@ export const insertQuestionValidation = (data) => {
     if (validator.isEmpty(data.optionD)) {
         errors.optionD = "Please enter the optionD"
     }
-    console.log("----------------------")
-    console.log(isEmpty(errors))
-    console.log("----------------------")
     return { isValid: isEmpty(errors), errors }
 }

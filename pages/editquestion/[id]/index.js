@@ -13,10 +13,8 @@ const EditQuestion = ({question}) =>{
         </Layout>
     )
 }
-EditQuestion.getInitialProps= async(req)=>{
-    console.log("Forum Query Value",req.query)    
+EditQuestion.getInitialProps= async(req)=>{   
     const question=await getQuestionById(req.query.id)    
-    console.log("Getting Data : ",question)
     return{
         question:question
     }

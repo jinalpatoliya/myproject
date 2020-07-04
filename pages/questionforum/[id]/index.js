@@ -6,8 +6,7 @@ import { getComment } from "../../../actions/comment"
 
 const MyForum = ({question , comments}) => {
     return (
-       <Layout>
-           {console.log("My dAta : ",comments)}
+       <Layout>           
            <div className="container">
                <div className="col-md-8">
            <ol>
@@ -36,7 +35,6 @@ const MyForum = ({question , comments}) => {
     )
 }
 MyForum.getInitialProps= async(req)=>{
-    console.log("Forum Query Value",req.query)
     const id={
         id:req.query.id
     }

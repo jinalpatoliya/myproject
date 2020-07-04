@@ -28,14 +28,12 @@ router.post("/", authenticate(), (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  console.log("All Question Details");
   QuestionModel.findAll().then((data) => {
     res.status(200).json(data);
   });
 });
 
 router.get("/:id", (req, res) => {
-  console.log("Id Comming From : ", req.params.id);
   const id = req.params.id;
   QuestionModel.findOne({
     where: {
@@ -47,7 +45,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", authenticate(), (req, res) => {
-  console.log("Data Coming to route", req.body);
   const id = req.params.id;
   const body = req.body;
   QuestionModel.update(
@@ -72,7 +69,6 @@ router.put("/:id", authenticate(), (req, res) => {
 });
 
 router.post("/subcate/:subcatId", (req, res) => {
-  console.log("Id Comming From shfdgsjgfsd : ", req.params.subcatId);
   const id = req.params.subcatId;
   QuestionModel.findAll({
     where: {
@@ -98,8 +94,7 @@ router.post("/questionperpage", (req, res) => {
 });
 
 
-router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
-  console.log("Enter Question Per Page", req.query);
+router.get("/slug/:catslug/subslug/:subslug", (req, res) => {  
   const pageNum = req.query.pageNum;
   const { catslug, subslug } = req.params;
 

@@ -109,7 +109,6 @@ export default class EditQuestionForm extends Component {
         category_id,
         id      
       };
-      console.log("Question Details", questionInsert);
       if (!validator.isEmpty(question) &&
       !validator.isEmpty(optionA) &&
       !validator.isEmpty(optionB) &&
@@ -120,7 +119,6 @@ export default class EditQuestionForm extends Component {
       !validator.isEmpty(subcategory_id)) {
       
       const data = await getEditQuestion(questionInsert);
-      console.log("Edit Quetion Response",data)
       this.setState({
         SuccessMsg: "Question Edited Successfully.",
         ErrorMsg: "",

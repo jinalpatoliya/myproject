@@ -4,9 +4,7 @@ import { Cookies } from "react-cookie";
 const cookies = new Cookies();
 let headers = null;
 let token1 = cookies.get("token");
-console.log("User Login Action vAlue : ", token1);
-if (typeof token1 !== "undefined" && token1 !== "undefined") {
-  console.log("After Parse Value", token1);
+if (typeof token1 !== "undefined" && token1 !== "undefined") {  
   headers = {
     Authorization: token1,
   };
@@ -16,15 +14,12 @@ export const getInsertQuestion = (questionInsert) => {
   return Axios.post("http://localhost:3000/api/v1/question", questionInsert, {
     headers: headers,
   })
-    .then((response) => {
-      console.log("Data inserted", response.data);
-    })
+    .then((response) => response.data)
     .catch((error) => {
       console.log(error);
     });
 };
-export const getEditQuestion = (questionEdit) => {
-  console.log("Data Comming Edit Q Action", questionEdit);
+export const getEditQuestion = (questionEdit) => {  
   return Axios.put(
     `http://localhost:3000/api/v1/question/${questionEdit.id}`,
     questionEdit,
@@ -32,15 +27,12 @@ export const getEditQuestion = (questionEdit) => {
       headers: headers,
     }
   )
-    .then((response) => {
-      console.log("Data Edited", response.data);
-    })
+    .then((response) => response.data)
     .catch((error) => {
       console.log(error);
     });
 };
 export const getQuestionBySubId = (subcategory_id) => {
-  console.log("Question Coming From Id", subcategory_id);
   return Axios.post(
     `http://localhost:3000/api/v1/question/subcate/${subcategory_id}`
   )
@@ -48,7 +40,6 @@ export const getQuestionBySubId = (subcategory_id) => {
     .catch((error) => console.log(error));
 };
 export const getQuestionById = (id) => {
-  console.log("Question Coming From Id", id);
   return Axios.get(`http://localhost:3000/api/v1/question/${id}`)
     .then((response) => response.data)
     .catch((error) => console.log(error));
@@ -67,7 +58,6 @@ export const getPerPageQuestion = (category, subcategory, page) => {
     .catch((error) => console.log(error.response.data));
 };
 export const checkDuplicateQuestionStatus = (question) => {
-  console.log("Question Check Action Coming",question)
   return Axios.get(    
     `http://localhost:3000/api/v1/question/questioncheck/${question}`
   )

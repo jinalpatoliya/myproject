@@ -24,7 +24,6 @@ class Signup extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { username, useremail, userpassword } = this.state;
-    console.log("Details", username, useremail, userpassword);
     if (validator.isEmail(useremail) && validator.isAlphanumeric(username)) {
       const user = {
         name: username,
@@ -33,7 +32,6 @@ class Signup extends Component {
       };
       try {
         const data = await signup(user);
-        console.log(data);
         if(data){
           this.setState({
             username: "",
