@@ -72,7 +72,7 @@ const DisplayQuestion = ({ question }) => {
         </div>
 
         {/* <div className="discuss">
-          <i class="fas fa-users"></i>
+          <i className="fas fa-users"></i>
           {/* <a className="mycolor text-capitalize" onClick={()=><MyForum question={question.question_id}/>}>discuss in forum</a> 
           <Link href="/questionforum/[id]" as={`/questionforum/${question.id}`}>
             <a className="mycolor text-capitalize">discuss in forum</a>
