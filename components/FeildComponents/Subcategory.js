@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 class Subcategory extends Component {
     render() {
-        const { label, name, handlename, data } = this.props;
+        const { label, name, handlename, data , selectedValue } = this.props;
         return (
             <div className="form-group">
                 <label>{label} :</label>
-                <select name={name} onChange={handlename} className="form-control">
+                <select name={name} onChange={handlename} className="form-control"  value={selectedValue}>
                     <option>Please Select Sub Category</option>
                     {
-                        data.map((category) => {
+                        data.map((subcategory) => {
                             return (
-                                <option key={category.id} value={category.id}>{category.subcategoryName} </option>
+                                <option key={subcategory.id} value={subcategory.id}>{subcategory.subcategoryName} </option>
                             )
                         })
                     }

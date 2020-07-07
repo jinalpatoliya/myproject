@@ -1,8 +1,9 @@
 import Sequelize from "sequelize";
 
-const QuestionTbl = (sequelizeDB) => {
+
+const Question = (sequelizeDB) => {
   const table = sequelizeDB.define(
-    "questiontbl",
+    "question",
     {
       question: {
         type: Sequelize.TEXT,
@@ -24,7 +25,16 @@ const QuestionTbl = (sequelizeDB) => {
       },
       // solution: {
       //   type: Sequelize.TEXT,
-      // },    
+      // },
+      category_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "category",
+          key: "id",
+        },
+      },      
+
       subcategory_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -51,4 +61,4 @@ const QuestionTbl = (sequelizeDB) => {
   return table;
 };
 
-export default QuestionTbl;
+export default Question;

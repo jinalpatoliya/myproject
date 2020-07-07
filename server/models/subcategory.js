@@ -6,7 +6,11 @@ const Subcategory = (sequelizeDB) => {
     {
       subcategoryName: {
         type: Sequelize.STRING,
-      },      
+      },     
+      subcategorySlug:{
+        type: Sequelize.STRING,
+        // unique:true
+      }, 
       category_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -14,9 +14,6 @@ const params = {
 const configurePassport = (passport) => {
   passport.use(
     new Strategy(params, (payload, done) => {
-      console.log("-----------------");
-      console.log(payload);
-      console.log("-----------------");
       UserModel.findByPk(payload.id)
         .then((user) => {
           if (user) {

@@ -1,27 +1,66 @@
-import Axios from 'axios'
-import jsCookie from 'js-cookie'
+import Axios from "axios";
+import { Cookies } from "react-cookie";
 
-let token1 = jsCookie.get("screenname");
-// console.log("Question Action Cookie Value", token1)
-let headers={}
-if (typeof token1 !== "undefined" && token1 !== "undefined") {
-    token1 = JSON.parse(token1);
-    const token = token1.token;
-    // console.log("Question Action After Parse Cookie Value", token)
-     headers = {
-        "Authorization": token
-    }
+const cookies = new Cookies();
+let headers = null;
+let token1 = cookies.get("token");
+if (typeof token1 !== "undefined" && token1 !== "undefined") {  
+  headers = {
+    Authorization: token1,
+  };
 }
 
-// headers: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined
 export const getInsertQuestion = (questionInsert) => {
-    return Axios.post('http://localhost:3000/api/v1/question', questionInsert, {
-        headers: headers
-    })
-        .then(response => {
-            console.log("Data inserted", response.data)
-        })
-        .catch(error => {
-            console.log(error);
-        })
+  return Axios.post("http://localhost:3000/api/v1/question", questionInsert, {
+    headers: headers,
+  })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const getEditQuestion = (questionEdit) => {  
+  return Axios.put(
+    `http://localhost:3000/api/v1/question/${questionEdit.id}`,
+    questionEdit,
+    {
+      headers: headers,
+    }
+  )
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const getQuestionBySubId = (subcategory_id) => {
+  return Axios.post(
+    `http://localhost:3000/api/v1/question/subcate/${subcategory_id}`
+  )
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+export const getQuestionById = (id) => {
+  return Axios.get(`http://localhost:3000/api/v1/question/${id}`)
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+
+export const getQuestion = () => {
+  return Axios.get("http://localhost:3000/api/v1/question")
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
+};
+export const getPerPageQuestion = (category, subcategory, page) => {
+  return Axios.get(
+    `http://localhost:3000/api/v1/question/slug/${category}/subslug/${subcategory}?pageNum=${page}`
+  )
+    .then((response) => response.data)
+    .catch((error) => console.log(error.response.data));
+};
+export const checkDuplicateQuestionStatus = (question) => {
+  return Axios.get(    
+    `http://localhost:3000/api/v1/question/questioncheck/${question}`
+  )
+  .then((response)=>response.data)
+  .catch((error)=>console.log(error));
 }

@@ -22,6 +22,122 @@
  * Copyright 2012-2013 Mattia Larentis
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
+ .mycolor {
+  color: #6dd3d6;
+  line-height: 100%;
+}
+.answer i.fa-book {
+  font-size: 20px;
+  line-height: 100%;
+}
+b.mycolor {
+  cursor: pointer;
+  color: #6dd3d6;
+}
+ul.listclassupper .listWrapper > li {
+  background: #f2f2f2;
+  color: #000;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 11px 15px;
+  line-height: 120%;
+  border-bottom: 1px solid #000;
+}
+ul.listclassupper,
+ul.listclassInner {
+  list-style: none;
+}
+.listWrapper:nth-child(odd) {
+  clear: both;
+}
+.listWrapper {
+  width: 47%;
+  margin-right: 2%;
+  float: left;
+}
+.listWrapper:nth-child(even) {
+  margin-right: 0; 
+}
+li.subcategorylist::before {
+  content: "\f0a4";
+  font-family: FontAwesome;
+  color: #6dd3d6;
+  margin-right: 15px;
+  font-size: 18px;
+}
+li.subcategorylist {
+  position: relative;
+}
+
+i.fas.fa-users {
+  font-family: FontAwesome;
+  margin-right: 10px;
+  font-size: 18px;
+  line-height: 100%;
+}
+.wrapperblock > div {
+  margin-right: 15px;
+}
+.wrapperblock {
+  display: flex;
+  border-top: 1px solid #f5f5f5;
+  padding: 15px 0 0px;
+  margin-top: 15px;
+}
+.commentForm {
+  background: #f5f5f5;
+  padding: 25px;
+  margin-top: 25px;
+}
+span.commentDate {
+  color: #ccc;
+}
+.comment-block {
+  padding: 10px 0;
+  border-top: 2px solid #f5f5f5;
+}
+.comment-block:last-child{ 
+  border-bottom: 2px solid #f5f5f5;
+}
+.textColor{
+  color:#66615B;
+  display: inline-block;
+}
+.pagination {
+  align-items: center;
+  justify-content: center;
+}
+.pagination > li > a, .pagination > li > span, .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
+  border: 2px solid #6dd3d6 !important;
+  color: #6dd3d6 !important;
+}
+.pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > a:active, .pagination > li.active > a, .pagination > li.active > span, .pagination > li.active > a:hover, .pagination > li.active > span:hover, .pagination > li.active > a:focus, .pagination > li.active > span:focus ,.pagination > li > a.active{
+  background-color: #6dd3d6 !important;
+  border-color:#6dd3d6 !important;
+  color: #FFFFFF !important;
+}
+.p-1.d-flex.button {
+  align-items: center;
+}
+.partition .p-2 {
+  border: 1px solid #ccc;
+  width: 45%;
+  margin: 50px;
+  /* padding: 50px; */
+  /* display: block; */
+}
+.partition-wrapper h3 {
+  margin: 0 0 10px;
+  text-align: center;
+}
+/* ############################################# */
+ .myblock {
+  border-bottom: 2px solid #f5f5f5;
+  margin: 20px 0;
+  padding-bottom: 20px;
+}
+
 .bootstrap-switch {
   display: inline-block;
   direction: ltr;
@@ -6030,9 +6146,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .slider.slider-danger .noUi-connect, .slider.slider-danger.noUi-connect {
   background-color: #f5593d; }
 
-/*!
-* https://github.com/YouCanBookMe/react-datetime
-*/
 .rdt {
   position: relative; }
   .rdt .rdtPicker {
@@ -6458,4 +6571,3 @@ td.rdtYear:hover {
   border-width: 0 .4rem .4rem .4rem;
   border-bottom-color: #fff; }
 
-/*# sourceMappingURL=paper-kit.css.map */

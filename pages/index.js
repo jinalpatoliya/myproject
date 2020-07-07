@@ -1,28 +1,32 @@
-import Header from "../components/Header/Header";
-import Layout from "../components/Layout/Layout";
 
+import React, { Component } from 'react'
+import { getCategories } from '../actions/category'
+import Layout from '../components/Layout/Layout';
+import ShowSubcategory from '../components/ShowSubCategory/ShowSubcategory';
 
-const Index = () => {
-  return (
-    <Layout>
-    <div className="test">
-      <style jsx>
-        {`
-          div {
-              text-align:center;              
-          }
-        `}
-      </style>
-      <h1>Welcome To My App </h1>
-    </div>
-    </Layout>
-  );
-};
-
-Index.getInitialProps = () => {
-  return {
-    data: [1, 2, 3],
-  };
-};
-
-export default Index;
+export default class Index extends Component {
+  static async getInitialProps(){
+    const category = await getCategories();    
+    return{
+      categories:category || []
+    }
+  }
+  render() {
+    return (
+     <Layout>
+       <ul className="listclassupper">
+       {
+        this.props.categories.map((category)=>{          
+          return(
+            <div className="listWrapper">
+              <li className="categorylist" key={category.id}>{category.categoryName}</li>                        
+              <ShowSubcategory categoryid={category.id} categoryname={category.categorySlug}/>
+            </div>
+          )
+        })
+       }
+       </ul>
+     </Layout>
+    )
+  }
+}

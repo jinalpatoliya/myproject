@@ -6,7 +6,13 @@ import TaskRouter from "./routes/task";
 import UserRouter from "./routes/user";
 import CategoryRouter from "./routes/category";
 import SubcategoryRouter from "./routes/subcategory";
-import QuestionTblRouter from "./routes/question";
+
+import QuestionRouter from "./routes/question";
+import CommentRouter from "./routes/comment";
+import MaincategoryRouter from "./routes/maincategory"
+import MainCategoryMappingRouter from "./routes/maincategorymapping"
+
+// import bodyParser from 'body-parser'
 require('dotenv').config();
 
 
@@ -27,7 +33,11 @@ app.prepare().then(() => {
   server.use("/api/v1/user", UserRouter);
   server.use("/api/v1/category",CategoryRouter);
   server.use("/api/v1/subcategory",SubcategoryRouter);
-  server.use("/api/v1/question",QuestionTblRouter);
+  server.use("/api/v1/question",QuestionRouter);    
+  server.use("/api/v1/comment",CommentRouter);
+  server.use("/api/v1/maincategory",MaincategoryRouter)
+  server.use("/api/v1/maincategorymapping",MainCategoryMappingRouter)
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });
@@ -37,3 +47,6 @@ app.prepare().then(() => {
     console.log(`Server is running http://localhost:${PORT}`);
   });
 });
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));

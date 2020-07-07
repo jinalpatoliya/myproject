@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 class Answer extends Component {
     render() {
-        const { label, handlechange, content } = this.props;
+        const { label, handlechange, content , value } = this.props;
         return (
             <div className="form-group">
                 <label>{label} :</label>
-                <select name={content} onChange={handlechange} className="form-control">
+                <select name={content} onChange={handlechange} className="form-control" value={value}>
                     <option value="A">Option A</option>
                     <option value="B">Option B</option>
                     <option value="C">Option C</option>

@@ -9,9 +9,12 @@ const User = (sequelizeDB) => {
       },
       email: {
         type: Sequelize.STRING,
+
+        allowNull: false,
+        unique: true,
       },
       password: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
       },
     },
     {

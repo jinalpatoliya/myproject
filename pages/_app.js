@@ -1,14 +1,21 @@
 import App from "next/app";
 import Head from "next/head";
 
+import { getTokeAndCheckIsExpired, removeToken } from "../util/auth";
+import { Router } from "next/router";
+
 class MyApp extends App {
-
-  // static async getInitialProps(ctx) {
-  //   const appProps = await App.getInitialProps(ctx);
-  //   console.log(appProps)
-  //   return { ...appProps }
-  // }
-
+  static async getInitialProps(ctx) {
+    const appProps = await App.getInitialProps(ctx);
+    const isExpired = getTokeAndCheckIsExpired(ctx.req);
+    if (isExpired) {
+      // TODO: Remove cookies
+      removeToken(ctx.req)
+      if (ctx.res) res.redirect("/login");
+      else Router.push("/login");
+    }
+    return { ...appProps };
+  }
   render() {
     const { Component, pageProps } = this.props;
     return (
@@ -47,4 +54,5 @@ class MyApp extends App {
     );
   }
 }
+
 export default MyApp;
