@@ -2,22 +2,26 @@ import dbConfig from "../config/db.config.json";
 import Sequelize from "sequelize";
 import Task from "../models/task";
 import User from "../models/user";
-import Category from "../models/category"
-import Subcategory from "../models/subcategory"
-import Question from "../models/question"
+import Category from "../models/category";
+import Subcategory from "../models/subcategory";
+import Question from "../models/question";
 import Comment from "../models/comment";
-import Maincategory from "../models/maincategory"
-import MainCategoryMapping from "../models/maincategorymapping"
+import Maincategory from "../models/maincategory";
+import MainCategoryMapping from "../models/maincategorymapping";
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  operatorsAliases: false, 
+  operatorsAliases: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle,
+  },
+  define: {
+    charset: "utf8",
+    collate: "utf8_general_ci",
   },
 });
 
@@ -31,9 +35,8 @@ export const CategoryModel = Category(sequelize);
 export const SubcategoryModel = Subcategory(sequelize);
 export const CommentModel = Comment(sequelize);
 export const QuestionModel = Question(sequelize);
-export const MaincategoryModel = Maincategory(sequelize)
-export const MainCategoryMappingModel = MainCategoryMapping(sequelize)
-
+export const MaincategoryModel = Maincategory(sequelize);
+export const MainCategoryMappingModel = MainCategoryMapping(sequelize);
 
 sequelize.sync().then(() => {
   console.log("---------------Tables Created--------------");
