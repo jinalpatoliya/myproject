@@ -1,7 +1,8 @@
 import Axios from "axios";
+import getServerUrl from "../util/getServerUrl";
 
 export const getCategories = () => {
-  return Axios.get(" http://localhost:3000/api/v1/category/")
+  return Axios.get("/category/")
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
@@ -13,3 +14,5 @@ export const insertCategory = (categoryName) => {
       throw error.response;
     });
 };
+
+

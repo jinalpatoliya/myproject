@@ -58,6 +58,7 @@ export const getPerPageQuestion = (category, subcategory, page) => {
     .catch((error) => console.log(error.response.data));
 };
 export const checkDuplicateQuestionStatus = (question) => {
+  console.log("Question Action Check",question)
   return Axios.get(    
     `http://localhost:3000/api/v1/question/questioncheck/${question}`
   )

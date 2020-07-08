@@ -113,10 +113,11 @@ export default class MaincategoryMapping extends Component {
     console.log("insertMainCategoryMapping Data",data)
     if (data) {
       this.setState({
-        Success: data.Message,
+        Success: "Main Category Mapping Successfully Added.",
         Error: "",
         mainCategoryId: "",
         putRight: "",
+        categories:this.props.categories
       });
     }
   } catch (error) {

@@ -36,7 +36,8 @@ class QuestionPage extends Component {
             category_id: '',
             subcategory_id: '',
             ErrorMsg: '',
-            SuccessMsg: ''
+            SuccessMsg: '',
+            questionStatus:''
         }
     }
 
@@ -61,6 +62,7 @@ class QuestionPage extends Component {
         e.preventDefault()
         const {question} = this.state;
         const data = await checkDuplicateQuestionStatus(question);
+        console.log("Status Coming Value",data)
     }
 
     handleChangeOptionA = (optionA) => {

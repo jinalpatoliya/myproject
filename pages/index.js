@@ -1,25 +1,26 @@
 import React, { Component } from 'react'
-import { getCategories } from '../actions/category'
 import Layout from '../components/Layout/Layout';
-import ShowSubcategory from '../components/ShowSubCategory/ShowSubcategory';
+import ShowCategory from '../components/ShowCategory/ShowCategory';
+import { getMainCategories } from '../actions/maincategory';
 
 export default class Index extends Component {
   static async getInitialProps(){
-    const category = await getCategories();    
+    const maincategory = await getMainCategories();    
     return{
-      categories:category || []
+      maincategories:maincategory || []
     }
   }
   render() {
+    // console.log("this.props.maincategories",this.props.maincategories)
     return (
      <Layout>
        <ul className="listclassupper">
        {
-        this.props.categories.map((category)=>{          
+        this.props.maincategories.map((maincategory)=>{          
           return(
             <div className="listWrapper">
-              <li className="categorylist" key={category.id}>{category.categoryName}</li>                        
-              <ShowSubcategory categoryid={category.id} categoryname={category.categorySlug}/>
+              <li className="categorylist" key={maincategory.id}>{maincategory.mainCategoryName}</li>                        
+              <ShowCategory maincategoryid={maincategory.id} maincategoryname={maincategory.mainCategorySlug}/>
             </div>
           )
         })

@@ -8,13 +8,18 @@ import CategoryRouter from "./routes/category";
 import SubcategoryRouter from "./routes/subcategory";
 import QuestionRouter from "./routes/question";
 import CommentRouter from "./routes/comment";
-import MaincategoryRouter from "./routes/maincategory"
-import MainCategoryMappingRouter from "./routes/maincategorymapping"
+import MaincategoryRouter from "./routes/maincategory";
+import MainCategoryMappingRouter from "./routes/maincategorymapping";
+import fs from "fs";
 
-// import bodyParser from 'body-parser'
+const envirment = process.env.NODE_ENV || "development";
+const envFilePath = "dotenv/.env." + envirment;
 
-require('dotenv').config();
-
+if (fs.existsSync(envFilePath)) {
+  require("dotenv").config({ path: envFilePath });
+} else {
+  require("dotenv").config();
+}
 
 // Envirment is development or production
 const dev = process.env.NODE_ENV !== "production";
@@ -22,7 +27,7 @@ const PORT = process.env.PORT || 3000;
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-app.prepare().then(() => { 
+app.prepare().then(() => {
   const server = express();
   server.use(express.json());
 
@@ -31,16 +36,16 @@ app.prepare().then(() => {
   configurePassport(passport);
   server.use("/api/v1/task", TaskRouter);
   server.use("/api/v1/user", UserRouter);
-  server.use("/api/v1/category",CategoryRouter);
-  server.use("/api/v1/subcategory",SubcategoryRouter);
-  server.use("/api/v1/question",QuestionRouter);    
-  server.use("/api/v1/comment",CommentRouter);
-  server.use("/api/v1/maincategory",MaincategoryRouter)
-  server.use("/api/v1/maincategorymapping",MainCategoryMappingRouter)
+  server.use("/api/v1/category", CategoryRouter);
+  server.use("/api/v1/subcategory", SubcategoryRouter);
+  server.use("/api/v1/question", QuestionRouter);
+  server.use("/api/v1/comment", CommentRouter);
+  server.use("/api/v1/maincategory", MaincategoryRouter);
+  server.use("/api/v1/maincategorymapping", MainCategoryMappingRouter);
   server.get("*", (req, res) => {
     return handle(req, res);
   });
-  
+
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`Server is running http://localhost:${PORT}`);
