@@ -4,17 +4,13 @@ const withPlugins = require("next-compose-plugins");
 
 const envirment = process.env.NODE_ENV || "development";
 
-// const envFilePath = "dotenv/.env." + envirment;
+const envFilePath = `.env.${envirment}`;
 
-// if (fs.existsSync(envFilePath)) {
-//   require("dotenv").config({ path: envFilePath });
-// } else {
-//   require("dotenv").config();
-// }
-
-console.log("-------------- ENV --------------");
-console.log(envirment);
-console.log(process.env);
+if (fs.existsSync(envFilePath)) {
+  require("dotenv").config({ path: envFilePath });
+} else {
+  require("dotenv").config();
+}
 
 module.exports = withPlugins(
   [
