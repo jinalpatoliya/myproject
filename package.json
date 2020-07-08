@@ -6,8 +6,8 @@
     "dev": "nodemon --exec babel-node server/index.js",
     "start": "next start",
     "build": "NODE_ENV=production next build",
-    "server-build": "NODE_ENV=production babel server -d build --copy-files",
-    "run-production": "npm run server-build && npm run build"
+    "build-server": "NODE_ENV=production babel server -d build --copy-files",
+    "build-prod": "npm run build-server && npm run build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
