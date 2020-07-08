@@ -1,5 +1,4 @@
 import Axios from "axios";
-import getServerUrl from "../util/getServerUrl";
 
 export const getCategories = () => {
   return Axios.get("/category/")
@@ -8,7 +7,7 @@ export const getCategories = () => {
 };
 
 export const insertCategory = (categoryName) => {
-  return Axios.post("http://localhost:3000/api/v1/category/", categoryName)
+  return Axios.post("/category/", categoryName)
     .then((response) => response.data)
     .catch((error) => {
       throw error.response;

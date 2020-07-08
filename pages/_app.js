@@ -2,6 +2,8 @@ import App from "next/app";
 import Head from "next/head";
 import { getTokeAndCheckIsExpired, removeToken } from "../util/auth";
 import { Router } from "next/router";
+import { configureServerURLToAxios } from "../util/axios";
+configureServerURLToAxios();
 
 class MyApp extends App {
   static async getInitialProps(ctx) {

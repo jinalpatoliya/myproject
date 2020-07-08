@@ -8,7 +8,7 @@ const router = Router();
 router.get("/", (req, res) => {
   MaincategoryModel.findAll().then((data) => {
     res.status(200).json(data);
-  });
+  }) .catch((error) => res.status(500).json({ error }));
 });
 
 router.post("/", (req, res) => {

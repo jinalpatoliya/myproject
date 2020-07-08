@@ -11,7 +11,7 @@ if (typeof token1 !== "undefined" && token1 !== "undefined") {
 }
 
 export const getInsertQuestion = (questionInsert) => {
-  return Axios.post("http://localhost:3000/api/v1/question", questionInsert, {
+  return Axios.post("/question", questionInsert, {
     headers: headers,
   })
     .then((response) => response.data)
@@ -21,7 +21,7 @@ export const getInsertQuestion = (questionInsert) => {
 };
 export const getEditQuestion = (questionEdit) => {  
   return Axios.put(
-    `http://localhost:3000/api/v1/question/${questionEdit.id}`,
+    `/question/${questionEdit.id}`,
     questionEdit,
     {
       headers: headers,
@@ -34,25 +34,25 @@ export const getEditQuestion = (questionEdit) => {
 };
 export const getQuestionBySubId = (subcategory_id) => {
   return Axios.post(
-    `http://localhost:3000/api/v1/question/subcate/${subcategory_id}`
+    `/question/subcate/${subcategory_id}`
   )
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
 export const getQuestionById = (id) => {
-  return Axios.get(`http://localhost:3000/api/v1/question/${id}`)
+  return Axios.get(`/question/${id}`)
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
 
 export const getQuestion = () => {
-  return Axios.get("http://localhost:3000/api/v1/question")
+  return Axios.get("/question")
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };
 export const getPerPageQuestion = (category, subcategory, page) => {
   return Axios.get(
-    `http://localhost:3000/api/v1/question/slug/${category}/subslug/${subcategory}?pageNum=${page}`
+    `/question/slug/${category}/subslug/${subcategory}?pageNum=${page}`
   )
     .then((response) => response.data)
     .catch((error) => console.log(error.response.data));
@@ -60,7 +60,7 @@ export const getPerPageQuestion = (category, subcategory, page) => {
 export const checkDuplicateQuestionStatus = (question) => {
   console.log("Question Action Check",question)
   return Axios.get(    
-    `http://localhost:3000/api/v1/question/questioncheck/${question}`
+    `/question/questioncheck/${question}`
   )
   .then((response)=>response.data)
   .catch((error)=>console.log(error));

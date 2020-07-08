@@ -1,6 +1,11 @@
 import { Router } from "express";
-import { MainCategoryMappingModel, CategoryModel } from "../db/index";
+import {
+  MainCategoryMappingModel,
+  CategoryModel,
+  MaincategoryModel,
+} from "../db/index";
 import { insertMainCategoryMappingValidation } from "../validations/maincategorymapping";
+import Maincategory from "../models/maincategory";
 
 const router = Router();
 
@@ -37,27 +42,33 @@ router.post("/", (req, res) => {
 router.get("/maincategory/:maincategoryId", (req, res) => {
   const main_category_id = req.params.maincategoryId;
   console.log("Route main cat id", main_category_id);
-  MainCategoryMappingModel.findAll({
-    where: {
-      main_category_id: main_category_id,
-    },
-  })
-    .then((category) => {
-      // console.log("*******************");
-      // // console.log("Category Id Route", category);
-      // console.log("id",category.maincategorymapping.dataValues.category_id)
-      // console.log("Id",category.category_id)
-      // console.log("*******************");
-      // CategoryModel.findAll({
-      //   where: {
-      //     // id: category.category_id,
-      //   },
-      // })
-      //   .then((data) => {
-          res.status(200).json(category);
-        })
-        .catch((error) => res.status(500).json({ error: error }));
-    // })
-    // .catch((error) => res.status(500).json({ error: error }));
+
+  MaincategoryModel.findAll().then((mainCategoryList) => {
+    mainCategoryList.forEach((item) => {
+      console.log("*****************")
+      console.log("Item id :",item.id)
+      console.log("*****************")
+      MainCategoryMappingModel.findAll({
+        where: {
+          main_category_id: item.id,
+        },
+      })
+        .then((mainCategoryMappingList) => {
+          mainCategoryMappingList.forEach(mainCategoryMappingListItem => {
+            console.log("*****************")
+            console.log("mainCategoryMappingListItem.category_id:",mainCategoryMappingListItem.category_id)
+            console.log("*****************")
+            CategoryModel.findOne({
+              where: {
+                id: mainCategoryMappingListItem.category_id
+              }
+            }).then(category => {
+              res.status(200).json(category);
+            })  .catch((error) => res.status(500).json({ error: error }));
+          })  .catch((error) => res.status(500).json({ error: error }));         
+         
+        }).catch((error) => res.status(500).json({ error: error }));     
+    });
+  }) .catch((error) => res.status(500).json({ error: error }));;
 });
 export default router;
