@@ -1,7 +1,7 @@
 const withImages = require("next-images");
 const withCSS = require("@zeit/next-css");
 const withPlugins = require("next-compose-plugins");
-
+const fs = require("fs");
 const envirment = process.env.NODE_ENV || "development";
 
 const envFilePath = `.env.${envirment}`;
