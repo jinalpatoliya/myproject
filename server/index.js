@@ -11,16 +11,6 @@ import QuestionRouter from "./routes/question";
 import CommentRouter from "./routes/comment";
 import MaincategoryRouter from "./routes/maincategory";
 import MainCategoryMappingRouter from "./routes/maincategorymapping";
-import fs from "fs";
-
-const envirment = process.env.NODE_ENV || "development";
-const envFilePath = "dotenv/.env." + envirment;
-
-if (fs.existsSync(envFilePath)) {
-  require("dotenv").config({ path: envFilePath });
-} else {
-  require("dotenv").config();
-}
 
 // Envirment is development or production
 const dev = process.env.NODE_ENV !== "production";

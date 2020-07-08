@@ -1,5 +1,7 @@
+import getConfig from "next/config";
+
 const getServerUrl = () => {
-  return process.env.API_URL;
+  return getConfig().publicRuntimeConfig.API_URL;
 };
 
 export default getServerUrl;

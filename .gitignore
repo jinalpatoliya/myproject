@@ -30,4 +30,7 @@ yarn-error.log*
 .env.production.local
 
 #config
-/server/config/**
+/server/config/db.config.json
+
+# package-lock
+package-lock.json
