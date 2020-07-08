@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --exec babel-node server/index.js",
-    "build": "next build",
-    "start": "next start"
+    "dev": "nodemon --exec babel-node server/index.js",    
+    "start": "next start",
+    "build": "NODE_ENV=production next build",
+    "server-build": "NODE_ENV=production babel server -d build --copy-files",
+    "run-production": "npm run server-build && npm run build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
