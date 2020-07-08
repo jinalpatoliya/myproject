@@ -12,6 +12,11 @@ import CommentRouter from "./routes/comment";
 import MaincategoryRouter from "./routes/maincategory";
 import MainCategoryMappingRouter from "./routes/maincategorymapping";
 
+const envirment = process.env.NODE_ENV || "development";
+const envFilePath = `.env.${envirment}`;
+
+require("dotenv").config({ path: envFilePath });
+
 // Envirment is development or production
 const dev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3000;

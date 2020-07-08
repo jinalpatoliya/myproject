@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Layout from "../components/Layout/Layout";
 import ShowCategory from "../components/ShowCategory/ShowCategory";
 import { getMainCategories } from "../actions/maincategory";
+import getConfig from "next/config";
 
 export default class Index extends Component {
   static async getInitialProps({ req }) {
@@ -28,5 +29,10 @@ export default class Index extends Component {
         </ul>
       </Layout>
     );
+  }
+
+  componentDidMount() {
+    console.log(getConfig());
+    console.log(process.env);
   }
 }
