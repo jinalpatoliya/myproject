@@ -8,8 +8,8 @@ import Subcategory from "../models/subcategory";
 const router = Router();
 
 router.post("/", authenticate(), (req, res) => {
-  const body = req.body;  
-  const { isValid, errors } = insertQuestionValidation(body);  
+  const body = req.body;
+  const { isValid, errors } = insertQuestionValidation(body);
   if (!isValid) return res.status(404).json(errors);
 
   const question = {
@@ -94,11 +94,10 @@ router.post("/questionperpage", (req, res) => {
     offset: pageNum * 1,
   }).then((data) => {
     res.status(200).json(data);
-  }); 
+  });
 });
 
-
-router.get("/slug/:catslug/subslug/:subslug", (req, res) => {  
+router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
   const pageNum = req.query.pageNum;
   const { catslug, subslug } = req.params;
 
@@ -136,6 +135,24 @@ router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
             .catch((err) => res.status(500).json({ error: err }));
         })
         .catch((err) => res.status(500).json({ error: err }));
+    })
+    .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.get("/questioncheck/:question", (req, res) => {
+  const { question } = req.params;  
+  console.log("Route Quetsion Come.",question);
+  QuestionModel.findAll({
+    where: {
+      question: question,
+    },
+  })
+    .then((data) => {
+      // res.status(200).json(data);
+      if (!isEmpty(data)) {
+        res.status(200).json({ message: "Question Already Exist." });
+        return;
+      }
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
