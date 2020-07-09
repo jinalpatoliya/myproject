@@ -7,7 +7,7 @@ class QuestionField extends Component {
         return (
             <div className="form-group">
                 <label>{label} :</label>
-                <TinyMCE content={content} handleChange={handlechange} />
+                <TinyMCE content={content} handleChange={handlechange} height={400}/>
             </div>
         );
     }

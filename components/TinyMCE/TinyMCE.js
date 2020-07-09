@@ -4,11 +4,13 @@ import { Editor } from "@tinymce/tinymce-react";
 class TinyMCE extends Component {
     render() {
         const defaultToolbar = 'bold italic  underline | blocks | mathjax | formatselect '
-        const { content, handleChange, toolbar } = this.props;
+        const defaultHeight = 200
+        const { content, handleChange, toolbar ,height} = this.props;
 
         return (
             <Editor
-                init={{
+                init={{     
+                    height: height || defaultHeight,               
                     oninit: "setPlainText",
                     plugins: "paste",
                     paste_as_text: true,

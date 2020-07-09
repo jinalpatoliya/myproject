@@ -5,6 +5,9 @@ const Question = (sequelizeDB) => {
   const table = sequelizeDB.define(
     "question",
     {
+      examName:{
+        type:Sequelize.STRING
+      },
       question: {
         type: Sequelize.TEXT,
       },  

@@ -3,6 +3,7 @@ import Layout from "../components/Layout/Layout";
 import validator from "validator";
 import { insertCategory, getCategories } from "../actions/category";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
+import TinyMCE from "../components/TinyMCE/TinyMCE";
 
 export default class Category extends Component {
   static async getInitialProps() {
@@ -16,6 +17,10 @@ export default class Category extends Component {
     this.state = {
       category: "",
       categorySlug: "",
+      categoryTitle: "",
+      catgeoryDescription: "",
+      categoryKeywords: "",
+      categoryContent: "",
       Success: "",
       Error: "",
     };
@@ -34,31 +39,51 @@ export default class Category extends Component {
       categorySlug: e.target.value,
     });
   };
+   
+  handleChangeContent = (content) => {
+    this.setState({
+      categoryContent:content
+    })
+}
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { category, categorySlug } = this.state;
+    const {
+      category,
+      categorySlug,
+      categoryTitle,
+      catgeoryDescription,
+      categoryKeywords,
+      categoryContent,
+    } = this.state;
     const category1 = {
       categoryName: category,
       categorySlug: categorySlug,
+      categoryTitle: categoryTitle,
+      catgeoryDescription: catgeoryDescription,
+      categoryKeywords: categoryKeywords,
+      categoryContent: categoryContent,
     };
-    // const categories=this.props.categories;
-    // const data=categories.filter((cat)=>cat.categoryName==category);
-    // if(data.length>0){
-    //     this.setState({
-    //         Error:"Already Exist Category."
-    //     })
-    // }
-    // else{
-    if (!validator.isEmpty(category) && !validator.isEmpty(categorySlug)) {
+    if (
+      !validator.isEmpty(category) &&
+      !validator.isEmpty(categoryTitle) &&
+      !validator.isEmpty(catgeoryDescription) &&
+      !validator.isEmpty(categoryKeywords) &&
+      !validator.isEmpty(categoryContent) &&
+      !validator.isEmpty(categorySlug)
+    ) {
       try {
         const data = await insertCategory(category1);
-        console.log("Category Data",data)
+        console.log("Category Data", data);
         if (data) {
           this.setState({
             Success: data.Message,
             Error: "",
             category: "",
             categorySlug: "",
+            categoryTitle: "",
+            catgeoryDescription: "",
+            categoryKeywords: "",
+            categoryContent: "",
           });
         }
       } catch (error) {
@@ -103,17 +128,58 @@ export default class Category extends Component {
                 value={this.state.categorySlug}
               />
             </div>
+
+            <div className="form-group">
+              <label>Category Title</label>
+              <input
+                type="text"
+                className="form-control"
+                name="categoryTitle"
+                placeholder="Enter Category Title"
+                onChange={this.handleChange}
+                value={this.state.categoryTitle}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category Description</label>
+              <input
+                type="text"
+                className="form-control"
+                name="catgeoryDescription"
+                placeholder="Enter Category Description"
+                onChange={this.handleChange}
+                value={this.state.catgeoryDescription}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category Keywords</label>
+              <input
+                type="text"
+                className="form-control"
+                name="categoryKeywords"
+                placeholder="Enter Category Keywords"
+                onChange={this.handleChange}
+                value={this.state.categoryKeywords}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category Content</label>
+              <TinyMCE label="categoryContent" content={this.state.categoryContent} handleChange={this.handleChangeContent} />
+            </div>
+            <ErrorSuccess
+              Error={this.state.Error}
+              Success={this.state.Success}
+            />
             <button
               type="submit"
               className="btn btn-dark"
               onClick={this.handleSubmit}
             >
               Submit
-            </button>
-            <ErrorSuccess
-              Error={this.state.Error}
-              Success={this.state.Success}
-            />
+            </button>           
           </form>
         </div>
       </Layout>

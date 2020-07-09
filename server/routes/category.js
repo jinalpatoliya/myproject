@@ -20,7 +20,11 @@ router.post("/", (req, res) => {
   
   const category = {    
         categoryName: body.categoryName,
-        categorySlug:body.categorySlug
+        categorySlug:body.categorySlug,
+        categoryTitle:body.categoryTitle,
+        categoryDescription:body.catgeoryDescription,
+        categoryKeyword:body.categoryKeywords,
+        categoryContent:body.categoryContent,
   };  
 
   CategoryModel.findOne({

@@ -8,21 +8,23 @@ import { getCategories } from "../../../actions/category";
 import { getsubcategoriesById } from "../../../actions/subcategory";
 import { getEditQuestion } from "../../../actions/questions";
 import validator from "validator";
+import ErrorSuccess from "../../../components/ErrorSuccess/ErrorSuccess";
 
 export default class EditQuestionForm extends Component {
   componentDidMount = async () => {
     const categories = await getCategories();
-    const subcategories = await getsubcategoriesById(this.state.category_id);    
+    const subcategories = await getsubcategoriesById(this.state.category_id);
 
     this.setState({
       categoryidfi: categories || [],
-      subcategoryidfi: subcategories      
+      subcategoryidfi: subcategories,
     });
   };
   constructor(props) {
-    super(props);   
+    super(props);
     this.state = {
-       id:props.question.id  ,
+      id: props.question.id,
+      examName: props.question.examName,
       question: props.question.question,
       optionA: props.question.optionA,
       optionB: props.question.optionB,
@@ -49,7 +51,11 @@ export default class EditQuestionForm extends Component {
       subcategory_id: e.target.value,
     });
   };
-
+  handleExamName = (e) => {
+    this.setState({
+      examName: e.target.value,
+    });
+  };
   handleChangeQuestion = (question) => {
     this.setState({
       question,
@@ -88,6 +94,7 @@ export default class EditQuestionForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     const {
+      examName,
       question,
       optionA,
       optionB,
@@ -96,40 +103,43 @@ export default class EditQuestionForm extends Component {
       answer,
       category_id,
       subcategory_id,
-      id
+      id,
     } = this.state;
     const questionInsert = {
-        question,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-        answer,
-        subcategory_id,
-        category_id,
-        id      
-      };
-      if (!validator.isEmpty(question) &&
+      examName,
+      question,
+      optionA,
+      optionB,
+      optionC,
+      optionD,
+      answer,
+      subcategory_id,
+      category_id,
+      id,
+    };
+    if (
+      !validator.isEmpty(question) &&
       !validator.isEmpty(optionA) &&
       !validator.isEmpty(optionB) &&
       !validator.isEmpty(optionC) &&
       !validator.isEmpty(optionD) &&
       !validator.isEmpty(answer) &&
       !validator.isEmpty(category_id) &&
-      !validator.isEmpty(subcategory_id)) {
-      
+      !validator.isEmpty(subcategory_id)
+    ) {
       const data = await getEditQuestion(questionInsert);
       this.setState({
         SuccessMsg: "Question Edited Successfully.",
         ErrorMsg: "",
-        question: '',
-        optionA: '',
-        optionB: '',
-        optionC: '',
-        optionD: '',
-        answer: '',            
-        category_id: '',
-        subcategory_id: '' 
+        question: "",
+        optionA: "",
+        optionB: "",
+        optionC: "",
+        optionD: "",
+        answer: "",
+        category_id: "",
+        subcategory_id: "",
+        examName:'',
       });
     } else {
       this.setState({
@@ -155,6 +165,16 @@ export default class EditQuestionForm extends Component {
             data={this.state.subcategoryidfi}
             selectedValue={this.state.subcategory_id}
           />
+           <div className="form-group">
+              <label>Previously Ask Exam Name(optional)</label>
+              <input
+                type="text"
+                name="examName"
+                className="form-control"
+                onChange={this.handleExamName}
+                value={this.state.examName}
+              />
+            </div>
           <QuestionField
             label="Question"
             content={this.state.question}
@@ -187,25 +207,17 @@ export default class EditQuestionForm extends Component {
             value={this.state.answer}
             handlechange={this.handleChangeAnswer}
           />
+           <ErrorSuccess
+              Error={this.state.ErrorMsg}
+              Success={this.state.SuccessMsg}
+            />
           <button
             type="submit"
             className="btn btn-dark"
             onClick={this.handleSubmit}
           >
             Edit
-          </button>
-          {this.state.SuccessMsg && (
-            <div className="alert alert-success mt-3" role="alert">
-              {" "}
-              {this.state.SuccessMsg}{" "}
-            </div>
-          )}
-          {this.state.ErrorMsg && (
-            <div className="alert alert-danger mt-3" role="alert">
-              {" "}
-              {this.state.ErrorMsg}{" "}
-            </div>
-          )}
+          </button>         
         </form>
       </div>
     );

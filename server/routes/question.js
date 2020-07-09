@@ -13,7 +13,7 @@ router.post("/", authenticate(), (req, res) => {
   if (!isValid) return res.status(404).json(errors);
 
   const question = {
-
+    examName:body.examName,
     question: body.question,
     optionA: body.optionA,
     optionB: body.optionB,
@@ -53,6 +53,7 @@ router.put("/:id", authenticate(), (req, res) => {
   QuestionModel.update(
     {
       question: body.question,
+      examName:body.examName,
       optionA: body.optionA,
       optionB: body.optionB,
       optionC: body.optionC,

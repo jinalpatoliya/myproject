@@ -7,6 +7,7 @@ class Answer extends Component {
             <div className="form-group">
                 <label>{label} :</label>
                 <select name={content} onChange={handlechange} className="form-control" value={value}>
+                    <option>Please Select Option</option>
                     <option value="A">Option A</option>
                     <option value="B">Option B</option>
                     <option value="C">Option C</option>

@@ -73,7 +73,7 @@ router.post("/login", (req, res) => {
         jwt.sign(
           payload,
           passportConfig.secretOrKey,
-          { expiresIn: 3600 },
+          { expiresIn: 86400 },
           (err, token) => {
             return res.status(200).json({
               token: "Bearer " + token,

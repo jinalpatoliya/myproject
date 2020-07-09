@@ -6,11 +6,22 @@ const Category = (sequelizeDB) => {
     "category",
     {
       categoryName: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       }, 
       categorySlug:{
-        type: Sequelize.STRING
-        // unique:true
+        type: Sequelize.STRING        
+      },
+      categoryTitle:{
+        type:Sequelize.STRING
+      },
+      categoryDescription:{
+        type:Sequelize.STRING(800)
+      },
+      categoryKeyword:{
+        type:Sequelize.STRING(500)
+      },
+      categoryContent:{
+        type:Sequelize.TEXT
       }         
     },
     {
