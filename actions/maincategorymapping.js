@@ -16,10 +16,10 @@ export const insertMainCategoryMapping = (maincategorymapping) => {
           });  
 }
 
-export const getcategoriesByMainCategoryId = (maincategoryId) => {
+export const getcategoriesByMainCategoryId = () => {
   // console.log("getcategoriesByMainCategoryId",getcategoriesByMainCategoryId)
   return Axios.get(
-    `/maincategorymapping/maincategory/${maincategoryId}`
+    `/maincategorymapping/maincategory`
   )
     .then((response) => response.data)
     .catch((error) => console.log(error));

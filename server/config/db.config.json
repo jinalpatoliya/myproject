@@ -2,7 +2,7 @@
   "HOST": "localhost",
   "USER": "root",
   "PASSWORD": "root",
-  "DB": "examsolution",
+  "DB": "temp1",
   "dialect": "mariadb",
   "pool": {
     "max": 5,

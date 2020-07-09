@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { SubcategoryModel } from "../db/index";
+import { SubcategoryModel, CategoryModel } from "../db/index";
 
 import { insertSubcategoryValidation } from "../validations/subcategory";
 import isEmpty from "../validations/is-empty";
+import { getCategoryIdByCategorySlug } from "../services/categoryservice";
 
 const router = Router();
 
@@ -13,10 +14,30 @@ router.get("/category/:catId", (req, res) => {
       category_id: category_id,
     },
   }).then((data) => {
-
     res.status(200).json(data);
   });
 });
+
+
+router.get("/category/:categorySlug", async (req, res) => {
+  console.log("Coming Route");
+  const categorySlug = req.params.categorySlug;
+  console.log("Catgeory Slug", categorySlug);
+  const categroryId = await getCategoryIdByCategorySlug(categorySlug);
+  console.log("Category Id", categroryId);
+  SubcategoryModel.findAll({
+    where: {
+      category_id: categoryId,
+    },
+  })
+    .then((data) => {
+      console.log("Data ------",data)
+      res.status(200).json(data);
+    })
+    .catch((error) => res.status(500).json({ error: error }));
+});
+
+
 
 router.post("/", (req, res) => {
   const body = req.body;
@@ -45,16 +66,12 @@ router.post("/", (req, res) => {
       }
       console.log("Come else Part");
       SubcategoryModel.create(subcategory)
-        .then((subcategorydata) => {          
+        .then((subcategorydata) => {
           res.status(200).json({ Message: "Category Successfully Added." });
         })
-        .catch((error) =>
-          res.status(500).json({ error: error })
-        );
+        .catch((error) => res.status(500).json({ error: error }));
     })
-    .catch((error) =>
-      res.status(500).json({ error: error })
-    );
+    .catch((error) => res.status(500).json({ error: error }));
 });
 
 export default router;

@@ -6,6 +6,9 @@ import {
 } from "../db/index";
 import { insertMainCategoryMappingValidation } from "../validations/maincategorymapping";
 import Maincategory from "../models/maincategory";
+import { getMainCategoryData } from "../services/maincategoryservice";
+import { getCategoryMappingData } from "../services/maincategorymappindservice";
+import { getCategoryById } from "../services/categoryservice";
 
 const router = Router();
 
@@ -39,36 +42,29 @@ router.post("/", (req, res) => {
     .catch((error) => res.status(500).json({ error: error }));
 });
 
-router.get("/maincategory/:maincategoryId", (req, res) => {
-  const main_category_id = req.params.maincategoryId;
-  console.log("Route main cat id", main_category_id);
-
-  MaincategoryModel.findAll().then((mainCategoryList) => {
-    mainCategoryList.forEach((item) => {
-      console.log("*****************")
-      console.log("Item id :",item.id)
-      console.log("*****************")
-      MainCategoryMappingModel.findAll({
-        where: {
-          main_category_id: item.id,
-        },
-      })
-        .then((mainCategoryMappingList) => {
-          mainCategoryMappingList.forEach(mainCategoryMappingListItem => {
-            console.log("*****************")
-            console.log("mainCategoryMappingListItem.category_id:",mainCategoryMappingListItem.category_id)
-            console.log("*****************")
-            CategoryModel.findOne({
-              where: {
-                id: mainCategoryMappingListItem.category_id
-              }
-            }).then(category => {
-              res.status(200).json(category);
-            })  .catch((error) => res.status(500).json({ error: error }));
-          })  .catch((error) => res.status(500).json({ error: error }));         
-         
-        }).catch((error) => res.status(500).json({ error: error }));     
-    });
-  }) .catch((error) => res.status(500).json({ error: error }));;
+router.get("/maincategory", async (req, res) => {
+  // const main_category_id = req.params.maincategoryId;
+  console.log("Route main Entre Mapping Main cat");
+  let data = [];
+  const mainCategoryList = await getMainCategoryData(); // List of main categories
+  for (let index = 0; index < mainCategoryList.length; index++) {
+    const obj = {};
+    const item = mainCategoryList[index];
+    // item : only category
+    obj.mainCategoryName = item.mainCategoryName
+    obj.categoryList = []
+    const mainCategoryMappingList = await getCategoryMappingData(item.id);
+    if (mainCategoryMappingList.length > 0) {
+      for (const mappingListItem of mainCategoryMappingList) {
+        // mappingListItem : main category id related category list
+        const category = await getCategoryById(mappingListItem.category_id);
+        //catgory : category id  and related data`
+        obj.categoryList.push(category);
+      }
+    }
+    data.push(obj)
+  }
+  res.status(200).json(data);
 });
+
 export default router;
