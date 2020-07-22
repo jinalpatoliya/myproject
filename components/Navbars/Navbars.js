@@ -4,7 +4,7 @@ import "./Navbars.css";
 import Router from "next/router";
 import { Cookies } from "react-cookie";
 import { Collapse, Navbar, NavItem, Nav, Container } from "reactstrap";
-
+import user from "../../public/img/200-2008697_account-customer-login-man-user-icon-login-icon.png";
 const cookies = new Cookies();
 
 const Navbars = () => {
@@ -93,10 +93,7 @@ const Navbars = () => {
   }
 
   return (
-    <Navbar      
-      color-on-scroll="300"
-      expand="lg"
-    >
+    <Navbar color-on-scroll="300" expand="lg">
       <Container>
         <div className="bg-primary">
           <button
@@ -117,6 +114,21 @@ const Navbars = () => {
           isOpen={navbarCollapse}
         >
           <Nav navbar>{content}</Nav>
+          {/* <div
+            className="user-image"
+            style={{ backgroundImage: `url(${user})` }}
+          >
+            {/* <img src={}/> */}
+          {/*</Collapse>  </div> */}
+          <div>
+            <Link href="/signup">
+              <a className="user-icon">
+                <div>
+                  <i class="fa fa-user" aria-hidden="true"></i>                  
+                </div>
+              </a>
+            </Link>
+          </div>
         </Collapse>
       </Container>
     </Navbar>

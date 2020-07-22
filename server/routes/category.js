@@ -49,5 +49,43 @@ router.post("/", (req, res) => {
                  .catch((error) => res.status(500).json({ error: "Error Coming From inner Side" }));
 }).catch((error) => res.status(500).json({ error: "Error Coming From Outer Exist Side" }));
 });
+router.get("/:catId", (req, res) => {
+  const category_id = req.params.catId;
+  CategoryModel.findOne({
+    where: {
+      id: category_id,
+    },
+  }).then((data) => {
+    res.status(200).json(data);
+  });
+});
 
+
+
+router.put("/:id",(req, res) => {
+  const body = req.body;
+  const id = req.params.id;
+
+  const { isValid, errors } = insertCategoryValidation(body);
+  if (!isValid) return res.status(404).json(errors);  
+  
+  CategoryModel.update(
+    {
+      categoryName: body.categoryName,
+      categorySlug:body.categorySlug,
+      categoryTitle:body.categoryTitle,
+      categoryDescription:body.categoryDescription,
+      categoryKeyword:body.categoryKeyword,
+      categoryContent:body.categoryContent,
+    },
+    {
+      where: {
+        id: id,
+      },
+    }
+  ).then((data) => {
+    // res.status(200).json(data);
+    res.status(200).json({"Message":"Category Successfully Edited."});
+  })  .catch((error) => res.status(500).json({ "Message": "Error For Edit Category Data." }));
+});
 export default router;

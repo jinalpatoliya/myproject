@@ -1,4 +1,4 @@
-  import Sequelize from "sequelize";
+import Sequelize from "sequelize";
 
 const Subcategory = (sequelizeDB) => {
   const table = sequelizeDB.define(
@@ -6,11 +6,23 @@ const Subcategory = (sequelizeDB) => {
     {
       subcategoryName: {
         type: Sequelize.STRING,
-      },     
-      subcategorySlug:{
+      },
+      subcategorySlug: {
         type: Sequelize.STRING,
         // unique:true
-      }, 
+      },
+      subcategoryTitle: {
+        type: Sequelize.STRING,
+      },
+      subcategoryDescription: {
+        type: Sequelize.STRING(500),
+      },
+      subcategoryKeyword: {
+        type: Sequelize.STRING(800),
+      },
+      subcategoryContent: {
+        type: Sequelize.TEXT,
+      },
       category_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -18,7 +30,7 @@ const Subcategory = (sequelizeDB) => {
           model: "category",
           key: "id",
         },
-      },   
+      },
     },
     {
       freezeTableName: true,

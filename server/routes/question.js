@@ -11,7 +11,6 @@ router.post("/", authenticate(), (req, res) => {
   const body = req.body;
   const { isValid, errors } = insertQuestionValidation(body);
   if (!isValid) return res.status(404).json(errors);
-
   const question = {
     examName:body.examName,
     question: body.question,
@@ -30,8 +29,12 @@ router.post("/", authenticate(), (req, res) => {
   });
 });
 
-router.get("/", (req, res) => {
-  QuestionModel.findAll().then((data) => {
+router.get("/",  authenticate(), (req, res) => {
+  QuestionModel.findAll({
+    where:{
+      user_id: req.user.id,
+    }
+  }).then((data) => {
     res.status(200).json(data);
   });
 });
@@ -139,7 +142,7 @@ router.get("/slug/:catslug/subslug/:subslug", (req, res) => {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
-
+ 
 router.get("/questioncheck/:question", (req, res) => {
   const { question } = req.params;  
   console.log("Route Quetsion Come.",question);

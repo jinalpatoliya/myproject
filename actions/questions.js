@@ -46,7 +46,9 @@ export const getQuestionById = (id) => {
 };
 
 export const getQuestion = () => {
-  return Axios.get("/question")
+  return Axios.get("/question",{
+    headers: headers,
+  })
     .then((response) => response.data)
     .catch((error) => console.log(error));
 };

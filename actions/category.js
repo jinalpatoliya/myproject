@@ -12,4 +12,18 @@ export const insertCategory = (categoryName) => {
     .catch((error) => {
       throw error.response;
     });
+}; 
+export const editCategory = (category) => {
+  return Axios.put(`/category/${category.id}`, category)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error.response;
+    });
+}; 
+export const getCategoryById = (categoryId) => {
+  return Axios.get(
+    `/category/${categoryId}`
+  )
+    .then((response) => response.data)
+    .catch((error) => console.log(error));
 };

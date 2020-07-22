@@ -37,7 +37,7 @@ class Signup extends Component {
             username: "",
             useremail: "",
             userpassword: "",
-            Success: "Successfully Sign Up.",
+            Success: "Please visit your email address and active your account",
             Error: "",
           });
         }

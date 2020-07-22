@@ -7,7 +7,7 @@ class QuestionList extends Component {
     static async getInitialProps (req){
         const questions = await getQuestion();        
         return{
-            questions:questions
+            questions:questions || []
         }
     }
     render() {        

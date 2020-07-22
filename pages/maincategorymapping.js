@@ -5,11 +5,12 @@ import { getCategories } from "../actions/category";
 import { insertMainCategoryMapping } from "../actions/maincategorymapping";
 import validator from "validator";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
-
+import { checkAuthentication } from "../util/auth";
 export default class MaincategoryMapping extends Component {
-  static async getInitialProps() {
+  static async getInitialProps({ req, res }) {
     const maincategories = await getMainCategories();
-    const categories = await getCategories();
+    const categories = await getCategories();    
+      const myval = checkAuthentication({ req, res });     
     return {
       maincategories,
       categories,
@@ -223,10 +224,11 @@ export default class MaincategoryMapping extends Component {
                 </div>
               </div>
             </div>
+            <ErrorSuccess Error={this.state.Error} Success={this.state.Success}/>
             <div className="form-group text-center">
               <input type="submit" className="btn btn-dark" value="Submit" onClick={this.submitHandle} />
             </div>
-            <ErrorSuccess Error={this.state.Error} Success={this.state.Success}/>
+          
           </form>
         </div>
       </Layout>

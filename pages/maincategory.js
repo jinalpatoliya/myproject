@@ -3,8 +3,13 @@ import Layout from "../components/Layout/Layout";
 import validator from "validator";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
 import { insertMainCategory } from "../actions/maincategory";
+import { checkAuthentication } from "../util/auth";
 
 export default class Category extends Component {
+  static async getInitialProps({ req, res }) {    
+    const myval = checkAuthentication({ req, res });
+    return{}
+  }
   constructor() {
     super();
     this.state = {
@@ -111,22 +116,22 @@ export default class Category extends Component {
                 type="text"
                 className="form-control"
                 name="mainCategoryTitle"
-                placeholder="Enter Main Category Tile"
+                placeholder="Enter Main Category Title"
                 onChange={this.handleChangeTitle}
                 value={this.state.mainCategoryTitle}
               />
             </div>
+            <ErrorSuccess
+              Error={this.state.Error}
+              Success={this.state.Success}
+            />
             <button
               type="submit"
               className="btn btn-dark"
               onClick={this.handleSubmit}
             >
               Submit
-            </button>
-            <ErrorSuccess
-              Error={this.state.Error}
-              Success={this.state.Success}
-            />
+            </button>           
           </form>
         </div>
       </Layout>

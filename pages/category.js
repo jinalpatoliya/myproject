@@ -4,10 +4,13 @@ import validator from "validator";
 import { insertCategory, getCategories } from "../actions/category";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
 import TinyMCE from "../components/TinyMCE/TinyMCE";
+import Router from "next/router";
+import { checkAuthentication } from "../util/auth";
 
 export default class Category extends Component {
-  static async getInitialProps() {
+  static async getInitialProps({req,res}) {
     const categories = await getCategories();
+    const myval = checkAuthentication({ req, res });
     return {
       categories: categories,
     };
@@ -18,15 +21,20 @@ export default class Category extends Component {
       category: "",
       categorySlug: "",
       categoryTitle: "",
-      catgeoryDescription: "",
-      categoryKeywords: "",
+      categoryDescription: "",
+      categoryKeyword: "",
       categoryContent: "",
       Success: "",
       Error: "",
     };
   }
 
-  handleChange = (e) => {
+  handleChange = (e) => {   
+    this.setState({
+      [e.target.name]: e.target.value      
+    });
+  };
+  handleChangeTitle = (e) => {
     let slug = e.target.value.toLowerCase();
     slug = slug.replace(" ", "-");
     this.setState({
@@ -39,35 +47,40 @@ export default class Category extends Component {
       categorySlug: e.target.value,
     });
   };
-   
+
   handleChangeContent = (content) => {
     this.setState({
-      categoryContent:content
-    })
-}
+      categoryContent: content,
+    });
+  };
+  handleChangeKeyword = (e) => {
+    this.setState({
+      categoryKeyword: e.target.value,
+    });
+  };
   handleSubmit = async (e) => {
     e.preventDefault();
     const {
       category,
       categorySlug,
       categoryTitle,
-      catgeoryDescription,
-      categoryKeywords,
+      categoryDescription,
+      categoryKeyword,
       categoryContent,
     } = this.state;
     const category1 = {
       categoryName: category,
       categorySlug: categorySlug,
       categoryTitle: categoryTitle,
-      catgeoryDescription: catgeoryDescription,
-      categoryKeywords: categoryKeywords,
+      categoryDescription: categoryDescription,
+      categoryKeyword: categoryKeyword,
       categoryContent: categoryContent,
     };
     if (
       !validator.isEmpty(category) &&
       !validator.isEmpty(categoryTitle) &&
-      !validator.isEmpty(catgeoryDescription) &&
-      !validator.isEmpty(categoryKeywords) &&
+      !validator.isEmpty(categoryDescription) &&
+      !validator.isEmpty(categoryKeyword) &&
       !validator.isEmpty(categoryContent) &&
       !validator.isEmpty(categorySlug)
     ) {
@@ -81,8 +94,8 @@ export default class Category extends Component {
             category: "",
             categorySlug: "",
             categoryTitle: "",
-            catgeoryDescription: "",
-            categoryKeywords: "",
+            categoryDescription: "",
+            categoryKeyword: "",
             categoryContent: "",
           });
         }
@@ -100,11 +113,17 @@ export default class Category extends Component {
     }
     // }
   };
+  clickme = () => {
+    Router.push("/showcategory");
+  };
   render() {
     return (
       <Layout>
         <div className="col-md-8 mx-auto">
-          <h1 className="text-center">Add Category</h1>
+          <h1>Add Category</h1>
+          <button onClick={this.clickme} className="btn btn-primary pull-right">
+            Show All Category
+          </button>
           <form>
             <div className="form-group">
               <label>Category</label>
@@ -113,7 +132,7 @@ export default class Category extends Component {
                 className="form-control"
                 name="category"
                 placeholder="Enter Category"
-                onChange={this.handleChange}
+                onChange={this.handleChangeTitle}
                 value={this.state.category}
               />
             </div>
@@ -146,10 +165,10 @@ export default class Category extends Component {
               <input
                 type="text"
                 className="form-control"
-                name="catgeoryDescription"
+                name="categoryDescription"
                 placeholder="Enter Category Description"
                 onChange={this.handleChange}
-                value={this.state.catgeoryDescription}
+                value={this.state.categoryDescription}
               />
             </div>
 
@@ -158,16 +177,20 @@ export default class Category extends Component {
               <input
                 type="text"
                 className="form-control"
-                name="categoryKeywords"
+                name="categoryKeyword"
                 placeholder="Enter Category Keywords"
-                onChange={this.handleChange}
-                value={this.state.categoryKeywords}
+                onChange={this.handleChangeKeyword}
+                value={this.state.categoryKeyword}
               />
             </div>
 
             <div className="form-group">
               <label>Category Content</label>
-              <TinyMCE label="categoryContent" content={this.state.categoryContent} handleChange={this.handleChangeContent} />
+              <TinyMCE
+                label="categoryContent"
+                content={this.state.categoryContent}
+                handleChange={this.handleChangeContent}
+              />
             </div>
             <ErrorSuccess
               Error={this.state.Error}
@@ -179,7 +202,7 @@ export default class Category extends Component {
               onClick={this.handleSubmit}
             >
               Submit
-            </button>           
+            </button>
           </form>
         </div>
       </Layout>

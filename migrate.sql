@@ -11,3 +11,11 @@ CHANGE COLUMN `updated_at` `updated_at` DATETIME NOT NULL COMMENT '		' ,
 ADD COLUMN `exam_name` VARCHAR(45) NULL AFTER `updated_at`;
 
 
+ALTER TABLE `temp1`.`subcategory` 
+CHANGE COLUMN `created_at` `created_at` DATETIME NOT NULL COMMENT '	' ,
+ADD COLUMN `subcategory_title` VARCHAR(255) NULL AFTER `updated_at`,
+ADD COLUMN `subcategory_description` VARCHAR(500) NULL AFTER `subcategory_title`,
+ADD COLUMN `subcategory_keyword` VARCHAR(255) NULL AFTER `subcategory_description`,
+ADD COLUMN `subcategory_content` TEXT NULL AFTER `subcategory_keyword`;
+
+
