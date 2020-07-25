@@ -1,24 +1,20 @@
 import Sequelize from "sequelize";
 
-const User = (sequelizeDB) => {
+const PendingUser = (sequelizeDB) => {
   const table = sequelizeDB.define(
-    "user",
+    "pendinguser",
     {
       name: {
         type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
-
         allowNull: false,
         unique: true,
       },
       password: {
         type: Sequelize.STRING,
       },
-      resetlink:{
-        type:Sequelize.TEXT,        
-      }
     },
     {
       freezeTableName: true,
@@ -28,4 +24,4 @@ const User = (sequelizeDB) => {
   return table;
 };
 
-export default User;
+export default PendingUser;

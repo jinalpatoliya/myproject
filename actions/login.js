@@ -7,3 +7,11 @@ export const login = (user) => {
       throw error.response;
     });
 };
+
+export const forgetpassword = (user) => {
+  return Axios.put("/user/forgetpassword",user)
+              .then((response)=>response.data)
+              .catch((error)=>{
+                throw error.response;
+              });
+}

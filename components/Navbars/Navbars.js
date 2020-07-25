@@ -124,7 +124,7 @@ const Navbars = () => {
             <Link href="/signup">
               <a className="user-icon">
                 <div>
-                  <i class="fa fa-user" aria-hidden="true"></i>                  
+                  <i className="fa fa-user" aria-hidden="true"></i>                  
                 </div>
               </a>
             </Link>

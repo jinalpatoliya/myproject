@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import validator from "validator";
 import Router from "next/router";
-import { login } from "../actions/login";
+import { login , forgetpassword } from "../actions/login";
 import { Cookies } from "react-cookie";
 import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 import Layout from "../components/Layout/Layout";
@@ -16,6 +16,7 @@ class Login extends Component {
       email: "",
       password: "",
       Error: "",
+      forgetpassword:false,
       token: cookies.get("token") || null,
     };
   }
@@ -24,9 +25,19 @@ class Login extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  handleChangeChk = (e) => {
+    this.setState({
+      [e.target.name]:!this.state.forgetpassword
+    })
+  }
+
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password ,forgetpassword} = this.state;
+    if(forgetpassword){
+      
+    }
     if (
       validator.isEmail(email) &&
       !validator.isEmpty(email) &&
@@ -89,6 +100,11 @@ class Login extends Component {
                       onChange={this.handleChange}
                       value={this.state.password}
                     />
+                    {/* <input type="check" name="forgetpassword" />Forget Password */}
+                    <input type="checkbox" defaultChecked={this.state.forgetpassword} onChange={this.handleChangeChk} />
+                    Forget Password
+
+
                     <Button
                       block
                       className="btn-round mb-3"

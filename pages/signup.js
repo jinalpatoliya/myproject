@@ -1,9 +1,10 @@
 import validator from "validator";
 import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 import Layout from "../components/Layout/Layout";
-import { signup } from "../actions/signup";
+// import { signup } from "../actions/signup";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
 import { Component } from "react";
+import { PendingSignup } from "../actions/pendingusersignup";
 
 class Signup extends Component {
   constructor() {
@@ -31,13 +32,14 @@ class Signup extends Component {
         password: userpassword,
       };
       try {
-        const data = await signup(user);
+        const data = await PendingSignup(user);
+        // console.log("datdasdtasdt",data)
         if(data){
           this.setState({
             username: "",
             useremail: "",
             userpassword: "",
-            Success: "Please visit your email address and active your account",
+            Success:data.message || '',
             Error: "",
           });
         }

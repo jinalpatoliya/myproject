@@ -6,12 +6,13 @@ import TaskRouter from "./routes/task";
 import UserRouter from "./routes/user";
 import CategoryRouter from "./routes/category";
 import SubcategoryRouter from "./routes/subcategory";
-
 import QuestionRouter from "./routes/question";
 import CommentRouter from "./routes/comment";
 import MaincategoryRouter from "./routes/maincategory";
 import MainCategoryMappingRouter from "./routes/maincategorymapping";
-
+import PendingUserRouter from "./routes/pendinguser";
+import bodyParser from 'body-parser'
+// import sendConfirmationEmail from './mailer'
 const envirment = process.env.NODE_ENV || "development";
 const envFilePath = `.env.${envirment}`;
 
@@ -26,7 +27,7 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
   server.use(express.json());
-
+  server.use(bodyParser.json())
   // it initialize passport and configure it
   server.use(passport.initialize());
   configurePassport(passport);
@@ -38,7 +39,8 @@ app.prepare().then(() => {
   server.use("/api/v1/comment", CommentRouter);
   server.use("/api/v1/maincategory", MaincategoryRouter);
   server.use("/api/v1/maincategorymapping", MainCategoryMappingRouter);
-
+  server.use("/api/v1/pendinguser",PendingUserRouter);
+  
   server.get("*", (req, res) => {
     return handle(req, res);
   });
