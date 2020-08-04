@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import validator from "validator";
 import Router from "next/router";
-import { login , forgetpassword } from "../actions/login";
+import { login , forgetpasswordUser } from "../actions/login";
 import { Cookies } from "react-cookie";
 import { Button, Card, Form, Input, Container, Row, Col } from "reactstrap";
 import Layout from "../components/Layout/Layout";
@@ -18,6 +18,7 @@ class Login extends Component {
       Error: "",
       forgetpassword:false,
       token: cookies.get("token") || null,
+      Success:""
     };
   }
   handleChange = (e) => {
@@ -28,44 +29,68 @@ class Login extends Component {
 
   handleChangeChk = (e) => {
     this.setState({
-      [e.target.name]:!this.state.forgetpassword
+      forgetpassword:!this.state.forgetpassword
     })
   }
 
   handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password ,forgetpassword} = this.state;
-    if(forgetpassword){
-      
+    console.log("forgetpassword",forgetpassword)
+    if(forgetpassword){     
+        if ( validator.isEmail(email) &&
+             !validator.isEmpty(email)){
+            try {
+              const reset = await forgetpasswordUser(email);
+              console.log("reset",reset)
+              if (reset) {          
+                this.setState({
+                  Success:reset.message
+                });          
+              }
+            } 
+            catch (error) {
+              this.setState({
+                Error: "Please Enter Valid Email & Password.",
+              });
+            }
+          }
+          else{
+            this.setState({
+              Error:"Please Enter valid Emial Address."
+            })
+          }
     }
-    if (
-      validator.isEmail(email) &&
-      !validator.isEmpty(email) &&
-      !validator.isEmpty(password)
-    ) {
-      const user = {
-        email,
-        password,
-      };
-      try {
-        const data = await login(user);
-        if (data) {
-          cookies.set("token", data.token);
+    else{
+        if (
+          validator.isEmail(email) &&
+          !validator.isEmpty(email) &&
+          !validator.isEmpty(password)
+        ) {
+          const user = {
+            email,
+            password,
+          };
+          try {
+            const data = await login(user);
+            if (data) {
+              cookies.set("token", data.token);
+              this.setState({
+                token: data,
+              });
+              Router.push("/question");
+            }
+          } catch (error) {
+            this.setState({
+              Error: "Please Enter Valid Email & Password.",
+            });
+          }
+        } else {
           this.setState({
-            token: data,
+            Error: "Please Enter Email and Password.",
           });
-          Router.push("/question");
         }
-      } catch (error) {
-        this.setState({
-          Error: "Please Enter Valid Email & Password.",
-        });
-      }
-    } else {
-      this.setState({
-        Error: "Please Enter Email and Password.",
-      });
-    }
+  }
   };
   render() {
     return (
@@ -100,8 +125,8 @@ class Login extends Component {
                       onChange={this.handleChange}
                       value={this.state.password}
                     />
-                    {/* <input type="check" name="forgetpassword" />Forget Password */}
-                    <input type="checkbox" defaultChecked={this.state.forgetpassword} onChange={this.handleChangeChk} />
+                   
+                    <input className="mt-4 mr-3" type="checkbox" defaultChecked={this.state.forgetpassword} onChange={this.handleChangeChk} />
                     Forget Password
 
 
@@ -115,7 +140,7 @@ class Login extends Component {
                       Login
                     </Button>
                   </Form>
-                  <ErrorSuccess Error={this.state.Error} />
+                  <ErrorSuccess Error={this.state.Error} Success={this.state.Success} />
                 </Card>
               </Col>
             </Row>

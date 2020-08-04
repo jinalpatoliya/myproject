@@ -13,7 +13,7 @@ const sendConfirmationEmail = ({toUser , hash}) => {
 
         const message = {
             from:process.env.GOOGLE_USER,
-            to:process.env.GOOGLE_USER,
+            to:toUser.email,
             subject:'Your App - ?Activate Account',
             html: `
             <h3> Hello ${toUser.name} </h3>

@@ -1,78 +1,66 @@
 import express from "express";
-import { UserModel, PendingUserModel } from "../db/index";
+import { UserModel, PendingUserModel, AccessHashModel } from "../db/index";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passportConfig from "../config/passport.config.json";
-
 import isEmpty from "../validations/is-empty";
 import { insertSignupValidation } from "../validations/signup";
-import { useParams } from "react-router-dom";
 
 const router = express.Router();
 
-router.put('forgetpassword',async(req,res)=>{
-  const body = req.body;
-  const userf = {
-    email:body.email
-    // password:body.password
+router.post("/forgetpassword", async (req,res)=>{
+  const email = req.body.email;
+  console.log("+++++++++++++++++")
+  console.log("Email Id",email)
+  console.log("+++++++++++++++++")
+  try{    
+      const user = await getUserData(email)
+      console.log("User Data",user)
+      if(!user){
+        return res.status(422).send({message:"User Does Not Exist."})
+      }
+      const hasHash = await gethasHash(user.id)     
+        if(hasHash){
+        return res.status(422).send("Email to reset password is already Sent !.");
+        }
+        // AccessHashModel.create(isHash)
+        // .then((createHash)=>{
+        //   return res.status(200).send({message:"Please Check Your Email To Reset Password ."});
+        // })      
   }
-  UserModel.findOne({
-    where:{
-    email:userf.email
-    }
-  }).then((user)=>{
-    if(!user){
-      return res.status(400).json({ error : "User with this email does not exists."})      
-    }
-    const token = jwt.sign({id:user.id},process.env.RESET_PASSWORD_KEY,{expiredIn:'20m'});
-    const data={
-      from:process.env.GOOGLE_USER,
-      to:userf.email,
-      subject:'Account Activation Link',
-      html:`
-        <h2>Please click on giver link to reset your password.</h2>
-        <p>${process.env.DOMAIN}/resetpassword/${token}</p>
-      `
-    }
-    return  UserModel.update({
-      resetlink:token
-    },{
+  catch{
+    return res.status(422).send("Ooops, something went wrong!");
+  }
+})
+
+
+export const getUserData = (email) => {
+  return new Promise((resolve, reject) => {
+    UserModel.findOne({
       where:{
-        email:user.email
-      }
-    }).then((error,usr)=>{
-      if(error){
-        return res.status(400).json({error:'Reset Password Link Error.'})
-      }
-      else{
-        return res.status(200).json({message:'Reset Password Link Sent To Yout mail id.'})
+        email:email
       }
     })
-    // bcrypt.genSalt(10, (err, salt) => {
-    //   bcrypt.hash(user.password, salt, (err, hash) => {
-    //     if (err) {
-    //       return res.status(400).json({ message: "bcrypt error" });
-    //     }
-        // user.password = hash;
-        // UserModel.update({
-        //   password:userf.password
-        // },
-        // {
-        //   where: {
-        //     email: userf.email,
-        //   },
-        // }
-        // )
-        //   .then((user) => {
-        //     res.status(200).json({ name: user.name, email: user.email });
-        //   })
-        //   .catch((err) =>
-        //     console.log({ Message: "Try Again Something Wrong !" })
-        //   );
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+};
+
+export const gethasHash = (id) => {
+  return new Promise((resolve, reject) => {
+    AccessHashModel.findOne({
+      where:{
+        id:id
+      }
+    })
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+};
 
 
-  })
-})
+
+
 router.get("/:id", async(req, res) => {
   const id = req.params.id;  
     PendingUserModel.findOne({

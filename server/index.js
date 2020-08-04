@@ -12,7 +12,7 @@ import MaincategoryRouter from "./routes/maincategory";
 import MainCategoryMappingRouter from "./routes/maincategorymapping";
 import PendingUserRouter from "./routes/pendinguser";
 import bodyParser from 'body-parser'
-// import sendConfirmationEmail from './mailer'
+import AccessHashRouter from "./routes/accesshash"
 const envirment = process.env.NODE_ENV || "development";
 const envFilePath = `.env.${envirment}`;
 
@@ -40,6 +40,7 @@ app.prepare().then(() => {
   server.use("/api/v1/maincategory", MaincategoryRouter);
   server.use("/api/v1/maincategorymapping", MainCategoryMappingRouter);
   server.use("/api/v1/pendinguser",PendingUserRouter);
+  server.use("/api/v1/accesshash",AccessHashRouter);
   
   server.get("*", (req, res) => {
     return handle(req, res);
