@@ -75,6 +75,11 @@ router.get("/:id", async(req, res) => {
         email: data.email,
         password: data.password,
       }
+      PendingUserModel.destroy({
+        where: {
+           id
+        }
+     })
       UserModel.create(newUser)
           .then((nuser) => {
             res.status(200).json({ name: nuser.name, email: nuser.email });
@@ -82,6 +87,7 @@ router.get("/:id", async(req, res) => {
           .catch((err) =>
             console.log({ Message: "Try Again Something Wrong !" })
           );
+         
     }
   });
     res.status(200).json({message: `User ${hash} has been activated`})
@@ -137,7 +143,9 @@ router.post("/login", (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    console.log("***********************")
+    console.log("*******User*************",user)
+    console.log("***********************")
     bcrypt.compare(body.password, user.password, (err, result) => {
       if (err) {
         return res.status(400).json({ message: "bcrypt error" });
@@ -150,6 +158,7 @@ router.post("/login", (req, res) => {
           id: user.id,
           name: user.name,
           email: user.email,
+          role:user.role          
         };
         jwt.sign(
           payload,

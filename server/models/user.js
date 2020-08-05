@@ -18,6 +18,10 @@ const User = (sequelizeDB) => {
       },
       resetlink:{
         type:Sequelize.TEXT,        
+      },
+      role:{
+        type: Sequelize.STRING,
+        defaultValue: 'student'
       }
     },
     {

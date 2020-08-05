@@ -18,4 +18,7 @@ ADD COLUMN `subcategory_description` VARCHAR(500) NULL AFTER `subcategory_title`
 ADD COLUMN `subcategory_keyword` VARCHAR(255) NULL AFTER `subcategory_description`,
 ADD COLUMN `subcategory_content` TEXT NULL AFTER `subcategory_keyword`;
 
+ALTER TABLE `temp1`.`user` 
+ADD COLUMN `role` VARCHAR(255) NULL AFTER `resetlink`;
+
 

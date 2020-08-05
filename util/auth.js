@@ -27,7 +27,7 @@ const checkTokenExpiration = (token) => {
   return false;
 };
 
-const decodeToken = (token) => {
+export const decodeToken = (token) => {
   if (token) return jwt_decode(token);
   return {};
 };

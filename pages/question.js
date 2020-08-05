@@ -19,6 +19,7 @@ class QuestionPage extends Component {
   static async getInitialProps({ req, res }) {
     const categories = await getCategories();
     const myval = checkAuthentication({ req, res });
+    
     return {
       categoryidfi: categories || [],
       decoded: myval.decoded,
@@ -159,6 +160,7 @@ class QuestionPage extends Component {
   };
 
   render() {
+    // console.log("myVal0",this.props.decoded)
     return (
       <Layout>
         <div className="col-md-10 mx-auto">
