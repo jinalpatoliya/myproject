@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import passportConfig from "../config/passport.config.json";
 import isEmpty from "../validations/is-empty";
 import { insertSignupValidation } from "../validations/signup";
+import sendConfirmationEmail from "../mailer";
 
 const router = express.Router();
 
@@ -63,34 +64,38 @@ export const gethasHash = (id) => {
 
 router.get("/:id", async(req, res) => {
   const id = req.params.id;  
-    PendingUserModel.findOne({
-    where: {
-      id
+    UserModel.update(
+      {
+        pendingstatus:1
     },
-  }).then((data) => {
-    // res.status(200).json(data);
-    if(data){
-      const newUser={
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      }
-      PendingUserModel.destroy({
-        where: {
-           id
-        }
-     })
-      UserModel.create(newUser)
-          .then((nuser) => {
-            res.status(200).json({ name: nuser.name, email: nuser.email });
-          })
-          .catch((err) =>
-            console.log({ Message: "Try Again Something Wrong !" })
-          );
-         
+    {
+      where: {
+      id
     }
+  }).then((data) => {
+    res.status(200).json({Message : data});
+    // if(data){
+    //   const newUser={
+    //     name: data.name,
+    //     email: data.email,
+    //     password: data.password,
+    //   }
+    //   PendingUserModel.destroy({
+    //     where: {
+    //        id
+    //     }
+    //  })
+    //   UserModel.create(newUser)
+    //       .then((nuser) => {
+    //         res.status(200).json({ name: nuser.name, email: nuser.email });
+    //       })
+    //       .catch((err) =>
+    //         console.log({ Message: "Try Again Something Wrong !" })
+    //       );
+         
+    // }
   });
-    res.status(200).json({message: `User ${hash} has been activated`})
+    // res.status(200).json({message: `User ${hash} has been activated`})
   // } 
   
   // res.json({message: `User ${id} has been activated`})
@@ -98,7 +103,6 @@ router.get("/:id", async(req, res) => {
 
 router.post("/register", (req, res) => {
   const body = req.body;
-
   const { isValid, errors } = insertSignupValidation(body);
   if (!isValid) return res.status(404).json(errors);
 
@@ -114,7 +118,7 @@ router.post("/register", (req, res) => {
     },
   }).then((userData) => {
     if (!isEmpty(userData)) {
-      return res.status(409).json({ msg: "User already exist" });
+      return res.status(409).json({ msg: "User is already registered." });
     }
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
@@ -123,8 +127,10 @@ router.post("/register", (req, res) => {
         }
         user.password = hash;
         UserModel.create(user)
-          .then((user) => {
-            res.status(200).json({ name: user.name, email: user.email });
+          .then(async(user) => {
+            // res.status(200).json({ name: user.name, email: user.email });
+            await sendConfirmationEmail({toUser : user , hash:user.id})
+            res.status(200).json({ message : "You have been registered , check your email address."})
           })
           .catch((err) =>
             console.log({ Message: "Try Again Something Wrong !" })
@@ -138,14 +144,12 @@ router.post("/login", (req, res) => {
   UserModel.findOne({
     where: {
       email: body.email,
+      pendingstatus:1
     },
   }).then((user) => {
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    console.log("***********************")
-    console.log("*******User*************",user)
-    console.log("***********************")
+      return res.status(404).json({ message: "User not found Or Requeste May be pending." });
+    }  
     bcrypt.compare(body.password, user.password, (err, result) => {
       if (err) {
         return res.status(400).json({ message: "bcrypt error" });

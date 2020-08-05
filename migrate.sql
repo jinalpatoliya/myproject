@@ -21,4 +21,6 @@ ADD COLUMN `subcategory_content` TEXT NULL AFTER `subcategory_keyword`;
 ALTER TABLE `temp1`.`user` 
 ADD COLUMN `role` VARCHAR(255) NULL AFTER `resetlink`;
 
+ALTER TABLE `temp1`.`user` 
+ADD COLUMN `pendingstatus` INT NULL DEFAULT 0 AFTER `role`;
 

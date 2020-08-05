@@ -5,6 +5,7 @@ import Layout from "../components/Layout/Layout";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
 import { Component } from "react";
 import { PendingSignup } from "../actions/pendingusersignup";
+import { signup } from "../actions/signup";
 
 class Signup extends Component {
   constructor() {
@@ -32,8 +33,9 @@ class Signup extends Component {
         password: userpassword,
       };
       try {
-        const data = await PendingSignup(user);
+        // const data = await PendingSignup(user);
         // console.log("datdasdtasdt",data)
+        const data = await signup(user);
         if(data){
           this.setState({
             username: "",

@@ -22,7 +22,12 @@ const User = (sequelizeDB) => {
       role:{
         type: Sequelize.STRING,
         defaultValue: 'student'
-      }
+      },
+      pendingstatus: { 
+        type: Sequelize.INTEGER,        
+        allowNull:false,
+        defaultValue:0
+        },
     },
     {
       freezeTableName: true,
