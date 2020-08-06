@@ -18,7 +18,7 @@ const sendConfirmationEmail = ({toUser , hash}) => {
             html: `
             <h3> Hello ${toUser.name} </h3>
             <p>Thank you for registering into our Application. Much Appreciated! Just one last step is laying ahead of you...</p>
-            <p>To activate your account please follow this link: <a target="_" href="${process.env.DOMAIN}/user/${hash}">${process.env.DOMAIN}/activate </a></p>
+            <p>To activate your account please follow this link: <a target="_" href="${process.env.DOMAIN}/usersss/${hash}">Activate Link</a></p>
             <p>Cheers</p>
             <p>Your Application Team</p>
           `

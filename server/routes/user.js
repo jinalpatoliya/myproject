@@ -73,7 +73,8 @@ router.get("/:id", async(req, res) => {
       id
     }
   }).then((data) => {
-    res.status(200).json({Message : data});
+    res.json({message: `User ${id} has been activated`})
+    // res.status(200).json({ Message : data });
     // if(data){
     //   const newUser={
     //     name: data.name,
@@ -118,7 +119,7 @@ router.post("/register", (req, res) => {
     },
   }).then((userData) => {
     if (!isEmpty(userData)) {
-      return res.status(409).json({ msg: "User is already registered." });
+      return res.status(422).json({ msg: "User is already registered." });
     }
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(user.password, salt, (err, hash) => {
@@ -134,6 +135,7 @@ router.post("/register", (req, res) => {
           })
           .catch((err) =>
             console.log({ Message: "Try Again Something Wrong !" })
+            // res.status(422).json({msg:err})
           );
       });
     });
