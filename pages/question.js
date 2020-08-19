@@ -11,9 +11,11 @@ import Answer from "../components/FeildComponents/Answer";
 import {
   getInsertQuestion,
   checkDuplicateQuestionStatus,
+  checkImage,
 } from "../actions/questions";
 import ErrorSuccess from "../components/ErrorSuccess/ErrorSuccess";
 import { checkAuthentication } from "../util/auth";
+import TinyImage from "../components/FeildComponents/TinyImage";
 
 class QuestionPage extends Component {
   static async getInitialProps({ req, res }) {
@@ -43,6 +45,7 @@ class QuestionPage extends Component {
       ErrorMsg: "",
       SuccessMsg: "",
       questionStatus: "",
+      base64image:""
     };
   }
 
@@ -51,7 +54,11 @@ class QuestionPage extends Component {
     const data = await getsubcategoriesById(category);
     this.setState({ category_id: category, subcategoryidfi: data });
   };
-
+  handleImage = (e) => {    
+    this.setState({
+      base64image:e.target.value
+    })
+  }
   handleSubCategory = (e) => {
     this.setState({
       subcategory_id: e.target.value,
@@ -74,7 +81,12 @@ class QuestionPage extends Component {
     const data = await checkDuplicateQuestionStatus(question);
     console.log("Status Coming Value", data);
   };
-
+  checkImage = async (e) => {
+    // e.preventDefault();
+    const {base64image} = this.state;
+    const data = await checkImage(base64image);
+    console.log("Image Value Status : ",data)
+  }
   handleChangeOptionA = (optionA) => {
     this.setState({
       optionA,
@@ -106,8 +118,10 @@ class QuestionPage extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Type Of Image",typeof this.state.base64image)
     const {
       examName,
+      base64image,
       question,
       optionA,
       optionB,
@@ -119,6 +133,7 @@ class QuestionPage extends Component {
     } = this.state;
     const questionInsert = {
       examName,
+      base64image,
       question,
       optionA,
       optionB,
@@ -141,6 +156,7 @@ class QuestionPage extends Component {
       const data = await getInsertQuestion(questionInsert);
       this.setState({
         SuccessMsg: "Question Entered Successfully.",
+        base64image:"",
         ErrorMsg: "",
         examName:"",
         question: "",
@@ -168,7 +184,21 @@ class QuestionPage extends Component {
             welcome {this.props.decoded.name && this.props.decoded.name}
           </h4>
           <h1 className="text-center">Question Page</h1>
-          <form>
+
+          <form encType="multipart/form-data">           
+             <TinyImage
+              label="Image"
+              content={this.state.base64image}
+              handlechange={this.handleImage}
+              value={this.state.base64image}
+            />
+             <button
+              type="button"
+              className="btn btn-primary mb-2"
+              onClick={this.checkImage}
+            >
+             Image
+            </button>
             <Category
               label="Category"
               name="category_id"

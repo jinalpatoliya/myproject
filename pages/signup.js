@@ -102,6 +102,7 @@ class Signup extends Component {
                           </Button> */}
                   </div>
                   <Form className="register-form">
+                    
                     <label>Name</label>
                     <Input
                       type="text"

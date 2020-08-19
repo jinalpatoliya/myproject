@@ -26,6 +26,9 @@ const Question = (sequelizeDB) => {
       answer: {
         type: Sequelize.STRING,
       },
+      image: {
+        type: Sequelize.TEXT,
+      },
       // solution: {
       //   type: Sequelize.TEXT,
       // },

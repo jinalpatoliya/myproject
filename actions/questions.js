@@ -67,3 +67,15 @@ export const checkDuplicateQuestionStatus = (question) => {
   .then((response)=>response.data)
   .catch((error)=>console.log(error));
 }
+
+export const checkImage = (base64image) => {
+  console.log("Action Image Value Come",base64image)
+  const data = {
+    base64image:base64image
+  }
+  return Axios.post(
+    `/question/imageupload`,data
+  )
+  .then((response)=>response.data)
+  .catch((error)=>console.log(error));
+}

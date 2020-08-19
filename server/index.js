@@ -25,8 +25,11 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
+  
   const server = express();
   server.use(express.json());
+  // server.use(bodyParser.urlencoded({ extended: false }));
+  server.use(bodyParser.urlencoded({ extended: false }));
   server.use(bodyParser.json())
   // it initialize passport and configure it
   server.use(passport.initialize());
@@ -41,11 +44,12 @@ app.prepare().then(() => {
   server.use("/api/v1/maincategorymapping", MainCategoryMappingRouter);
   server.use("/api/v1/pendinguser",PendingUserRouter);
   server.use("/api/v1/accesshash",AccessHashRouter);
-  
+ 
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });
-
+  
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`Server is running http://localhost:${PORT}`);

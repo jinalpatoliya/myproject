@@ -1,28 +1,37 @@
 import { Router } from "express";
-
 import { QuestionModel, CategoryModel, SubcategoryModel } from "../db/index";
 import { insertQuestionValidation } from "../validations/question";
 import { authenticate } from "../security/passport";
 import isEmpty from "../validations/is-empty";
-import Subcategory from "../models/subcategory";
+// import Subcategory from "../models/subcategory";
+// import multer from 'multer';
+// const upload = multer({dest:'../../static/images'});
+import fs from 'fs'
+import mime from 'mime'
+import base64Img from 'base64-img';
 const router = Router();
 
-router.post("/", authenticate(), (req, res) => {
+router.post("/", authenticate(),(req, res) => {
   const body = req.body;
+  console.log("%%%%%%%%%%%%%%%%%%%%")
+  console.log("req file",req.file)
+  console.log("==================================")
+  console.log("Req Body",req.body)
+  console.log("%%%%%%%%%%%%%%%%%%%%")
   const { isValid, errors } = insertQuestionValidation(body);
   if (!isValid) return res.status(404).json(errors);
   const question = {
     examName:body.examName,
+    // image:body.image,
     question: body.question,
     optionA: body.optionA,
     optionB: body.optionB,
     optionC: body.optionC,
     optionD: body.optionD,
     answer: body.answer,
-
     category_id: body.category_id,
     subcategory_id: body.subcategory_id,
-    user_id: req.user.id,
+    user_id: req.user.id,    
   };
   QuestionModel.create(question).then((data) => {
     res.status(200).json(data);
@@ -160,5 +169,43 @@ router.get("/questioncheck/:question", (req, res) => {
     })
     .catch((err) => res.status(500).json({ error: err }));
 });
+
+
+
+const uploadImage = async (req, res, next) => {
+  // to declare some path to store your converted image
+  console.log("Coming Value to upload image : ",req.body)
+  var data1 = base64Img.base64Sync(`${req.body.base64image}`);
+  console.log("Coming Value to upload image : ",data1)
+  const matches = data1.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+  // const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+  response = {};
+   
+  if (matches.length !== 3) {
+  return new Error('Invalid input string');
+  }
+   
+  response.type = matches[1];
+  // response.data = new Buffer(matches[2], 'base64');
+  response.data = Buffer.from(matches[2], 'base64');
+  
+  let decodedImg = response;
+  let imageBuffer = decodedImg.data;
+  let type = decodedImg.type;
+  let extension = mime.getExtension(type);
+  const date = new Date();
+  const val = date.getTime();
+  let fileName = "image." + `${val}` + extension;
+  try {
+  fs.writeFileSync("./static/images/" + fileName, imageBuffer, 'utf8');
+  // path: path.join(__dirname, `../static/images/${id}.png`)
+  return res.send({"status":"success"});
+  } catch (e) {
+  next(e);
+  }
+  }
+   
+  router.post('/imageupload', uploadImage)
+  
 
 export default router;
