@@ -1,8 +1,8 @@
 import isEmpty from "./is-empty";
 import jwt_decode from "jwt-decode";
 import { Cookies } from 'react-cookie';
-import { Router } from 'next/router';
-
+// import { Router } from 'next/router';
+import Router from "next/router";
 const cookies = new Cookies();
 
 export const getTokeAndCheckIsExpired = (req) => {
@@ -56,6 +56,8 @@ const getToken = (req) => {
 export const checkAuthentication=({req,res})=>{
     
     const token = getToken(req)
+    const decode = decodeToken(token)
+    console.log("DEcode Value Val val :: ",decode)
     if(!token){        
         if(res){
             res.redirect('/login')
@@ -64,8 +66,15 @@ export const checkAuthentication=({req,res})=>{
             Router.push("/login")
         }
     }  
-
-    const decode = decodeToken(token)
+    if(token && decode.role=='student'){
+      if(res){
+        res.redirect('/')
+    }
+    else{
+        Router.push("/")
+    }
+    }
+    
                
     return{
         decoded:decode        

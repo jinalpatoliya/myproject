@@ -81,8 +81,9 @@ class Login extends Component {
               Router.push("/question");
             }
           } catch (error) {
+            // console.log("Error Msg",error)
             this.setState({
-              Error: "Please Enter Valid Email & Password.",
+              Error: error.data.message
             });
           }
         } else {
